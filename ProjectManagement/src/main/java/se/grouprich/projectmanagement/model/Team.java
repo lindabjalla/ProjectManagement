@@ -1,0 +1,84 @@
+package se.grouprich.projectmanagement.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import se.grouprich.projectmanagement.status.TeamStatus;
+
+@Entity
+public class Team
+{
+	@Id
+	@GeneratedValue
+	private Long id;
+
+	@Column(nullable = false)
+	private String name;
+
+	@Enumerated(EnumType.STRING)
+	private TeamStatus status;
+
+	protected Team(){}
+
+	public Team(String name)
+	{
+		this.name = name;
+		status = TeamStatus.ACTIVE;
+	}
+	
+	public Long getId()
+	{
+		return id;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public void setStatus(TeamStatus status)
+	{
+		this.status = status;
+	}
+
+	@Override
+	public boolean equals(final Object other)
+	{
+		if (this == other)
+		{
+			return true;
+		}
+
+		if (other instanceof Team)
+		{
+			Team otherTeam = (Team) other;
+			return name.equals(otherTeam.name) && status.equals(otherTeam.status);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = 1;
+		result += name.hashCode() * 37;
+		result += status.hashCode() * 37;
+
+		return result;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Team [id=" + id + ", name=" + name + ", status=" + status + "]";
+	}
+}
