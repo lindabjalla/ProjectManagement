@@ -1,0 +1,2 @@
+# ProjectManagement
+ProjectManagement-Spring-Data-JPA  Under denna laboration ska ni konstruera ett pragmatiskt ärendehanteringssystem. Ni kommer att bygga det lager som har han om lagring av data. Systemet ska tillåta en användare att lägga upp ärenden som sedan kan prioriteras och hanteras. I projektarbetet ingår att i grupp ta reda på hur ett sådant system fungerar. Utmärkta exempel på sådana system kan hittas här: https://www.pivotaltracker.com och http://leankit.com/
