@@ -137,6 +137,14 @@ public final class Main
 			User foundUser2 = service.findOneUser(9L);
 			User userInactivated = service.inactivateUser(foundUser2);
 			System.out.println("userInactivated: " + userInactivated);
+			System.out.println();
+			
+//			Testar om exception kastas när ett Team har flera än 10 medlemmar.
+//			Om du inte vill få TeamException(Team has already 10 members) kommentera bort den här for-loopen.
+			for (int i = 0; i < 10; i++)
+			{
+				service.addUserToTeam(foundTeam, new User("Sumireeeeeeeeeeeeeeeee" + i));
+			}	
 		}
 	}
 }
