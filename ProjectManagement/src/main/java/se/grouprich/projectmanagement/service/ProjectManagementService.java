@@ -34,7 +34,6 @@ public class ProjectManagementService
 		this.workItemRepository = workItemRepository;
 	}
 
-	// Gjorde denna metod temporart bara för att testa
 	public User findUserById(Long id)
 	{
 		return userRepository.findOne(id);
@@ -85,7 +84,6 @@ public class ProjectManagementService
 		return userRepository.findByTeam(team);
 	}
 
-	// Gjorde denna metod temporart bara för att testa
 	public Team findTeamById(Long id)
 	{
 		return teamRepository.findOne(id);
@@ -122,7 +120,6 @@ public class ProjectManagementService
 		return userRepository.save(user);
 	}
 
-	// Gjorde denna metod temporart bara för att testa
 	public WorkItem findWorkItemById(Long id)
 	{
 		return workItemRepository.findOne(id);
@@ -144,10 +141,6 @@ public class ProjectManagementService
 		return workItemRepository.removeById(workItem.getId()).get(0);
 	}
 
-	// Det finns ingen metod som gör merge i Springs CrudRepository så därför
-	// gjorde jag så här på
-	// manuellt sätt. Jag fick samma problem som den här nedan.
-	// http://stackoverflow.com/questions/16559407/spring-data-jpa-save-new-entity-referencing-existing-one
 	@Transactional
 	public WorkItem assignWorkItemToUser(User user, WorkItem workItem) throws WorkItemException
 	{

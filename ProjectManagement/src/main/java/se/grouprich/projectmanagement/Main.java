@@ -24,23 +24,23 @@ public final class Main
 			context.refresh();
 			ProjectManagementService service = context.getBean(ProjectManagementService.class);
 
-			User user3 = new User("Henrikkkkkkkkkkkkkkkkkkkkkkkk");
+			User user1 = new User("HenrikJapan", "henrik123","Henrik", "Risoto", "1001");
 			
 //			Testar om exceptioin kastas när workItem tilldelas till INACTIVE user 
 //			User user3 = new User("Henrikkkkkkkkkkkkkkkkkkkkkkkk").setStatus(UserStatus.INACTIVE);
 			
-			WorkItem workItemForHenrik = service.assignWorkItemToUser(user3, new WorkItem("diska"));
+		/*	WorkItem workItemForHenrik = service.assignWorkItemToUser(user1, new WorkItem("Dansa med Izumi på fredag"));
 			System.out.println("workItemForHenrik: " + workItemForHenrik);
-			System.out.println();
+			System.out.println();*/
 			
 			Team team5 = new Team("team5");
 			System.out.println("team5: " + team5);
 			System.out.println();
 			
-			User henrik = service.findUserById(1L);
+		/*	User henrik = service.findUserById(1L);
 			User henrikJoinedTeam = service.addUserToTeam(team5, henrik);
 			System.out.println("henriksTeam: " + henrikJoinedTeam.getTeam());
-			System.out.println();
+			System.out.println();*/
 			
 			Team teamB = new Team("teamB");
 			Team teamBSaved = service.createOrUpdateTeam(teamB);
@@ -55,7 +55,7 @@ public final class Main
 			System.out.println("fetchAllTeams: " + fetchAllTeams);
 			System.out.println();
 			
-			WorkItem workItem1 = new WorkItem("Hundpromenad");
+		/*	WorkItem workItem1 = new WorkItem("Hundpromenad");
 			workItem1.setDescription("Promenera med en hund som heter Panda");
 			WorkItem workItem1Saved = service.createOrUpdateWorkItem(workItem1);
 			System.out.println("workItem1Saved: " + workItem1Saved);
@@ -69,26 +69,27 @@ public final class Main
 			System.out.println("workItemRemoved: " + workItemRemoved);
 			System.out.println();
 			
-			WorkItem workItem2 = new WorkItem("Kattpromenad").setStatus(WorkItemStatus.UNSTARTED).setDescription("Promenera med en katt två timmar");;
-			User user = new User("Nekoooooooooooooooooo");
-			WorkItem workItemAssignedToUser = service.assignWorkItemToUser(user, workItem2);
+			WorkItem workItem2 = new WorkItem("Kattpromenad").setStatus(WorkItemStatus.UNSTARTED).setDescription("Promenera med en katt två timmar");*/
+			User user2 = new User("IzumiJapan", "izumi123", "Izumi", "Lindabjalla", "1002");
+			/*WorkItem workItemAssignedToUser = service.assignWorkItemToUser(user2, workItem2);
 			System.out.println("workItemAssignedToUser: " + workItemAssignedToUser);
 			System.out.println();
 			
 			List<WorkItem> workItemsFetchedByStatus = service.fetchWorkItemsByStatus(WorkItemStatus.UNSTARTED);
 			System.out.println("workItemsFetchedByStatus: " + workItemsFetchedByStatus);
-			System.out.println();
+			System.out.println();*/
 			
 			Team team7 = new Team("Team7");
-			User user2 = new User("Marimekkooooooooooooooo");
-			WorkItem workItem3 = new WorkItem("Lek med katt").setDescription("Lek med katten med bollen");
+			User user3 = new User("HaydeePeru", "haydee123", "Haydee", "Arbieto De Alvarado", "1002");
+			
+		/*	WorkItem workItem3 = new WorkItem("Lek med katt").setDescription("Lek med barnen med puzzel");
 			service.addUserToTeam(team7, user2);
 			service.assignWorkItemToUser(user2, workItem3);
 			System.out.println("workItem3: " + workItem3);
-			System.out.println();
+			System.out.println();*/
 			
-			User hanaJoinedTeam7 = service.addUserToTeam(team7, new User("Hanaaaaaaaaaaaaaaaa"));
-			System.out.println("hanaJoinedTeam7: " + hanaJoinedTeam7);
+			User cristianJoinedTeam7 = service.addUserToTeam(team7, new User("CristianChile", "cristian123", "Cristian", "Gonzalez", "1003"));
+			System.out.println("cristianJoinedTeam7: " + cristianJoinedTeam7);
 			System.out.println();
 			
 			Team foundTeam = service.findTeamById(8L);
@@ -96,16 +97,16 @@ public final class Main
 			System.out.println("workItemsFetchedForTeam: " + workItemsFetchedForTeam);
 			System.out.println();
 			
-			User foundUser = service.findUserById(7L);
+			/*User foundUser = service.findUserById(7L);
 			
 			List<WorkItem> workItemsForUser = service.fetchWorkItemsForUser(foundUser);
-			System.out.println("workItemsForUser: " + workItemsForUser);
+			System.out.println("workItemsForUser: " + workItemsForUser);*/
 			System.out.println();
 			
 			List<WorkItem> workItemsSearchedByKatt = service.searchWorkItemsByDescriptionContaining("katt");
 			System.out.println("workItemsSearchedByKatt: " + workItemsSearchedByKatt);
 			System.out.println();
-			
+			/*
 			WorkItem foundWorkItem = service.findWorkItemById(10L).setStatus(WorkItemStatus.DONE);
 			WorkItem workItemWithIssue = service.addIssueToWorkItem(foundWorkItem, new Issue("katten vill leka mer"));
 			System.out.println("workItemWithIssue: " + workItemWithIssue);
@@ -118,29 +119,29 @@ public final class Main
 			service.addIssueToWorkItem(workItemWithUpdatedIssue.setStatus(WorkItemStatus.DONE), new Issue("katten är nu trött"));
 			List<WorkItem> workItemsWithIssue = service.fetchWorkItemsWithIssue();
 			System.out.println("workItemsWithIssue: " + workItemsWithIssue);
-			System.out.println();
+			System.out.println();*/
 			
-			User createdUser = service.createOrUpdateUser(new User("Midoriiiiiiiiiiiiiiiiiiii", "12rI", "Midori", "Ayanokoji", "100"));
+			User createdUser = service.createOrUpdateUser(new User("RodionEstland", "rodion3rI", "Rodion", "Sevenberg", "104"));
 			System.out.println("createdUser: " + createdUser);
 			System.out.println();
 			
 			User userFoundByUserNumber = service.fetchUserByUserNumber("100");
-			System.out.println("userFoundByUserNumber: " + userFoundByUserNumber);
+			System.out.println("User found by usernumber: " + userFoundByUserNumber);
 			System.out.println();
 			
 			User userFoundByFirstNameAndLastNameAndUsername = service.searchUserByFirstNameAndLastNameAndUsername("Midoriiiiiiiiiiiiiiiiiiii", "Ayanokoji", "Midori");
-			System.out.println("MidoriFoundByFirstname and lastname and username: " + userFoundByFirstNameAndLastNameAndUsername);
+			System.out.println("Rodion found by firstname and lastname and username: " + userFoundByFirstNameAndLastNameAndUsername);
 			System.out.println();
 			
-			List<User> userFoundByFirstNameOrLastNameOrUsername = service.searchUserByFirstNameOrLastNameOrUsername(" ", "Ayanokoji","Henrik"); 
-			System.out.println("MidoriFoundByFirstname or lastname or username: " + userFoundByFirstNameOrLastNameOrUsername);
+			List<User> userFoundByFirstNameOrLastNameOrUsername = service.searchUserByFirstNameOrLastNameOrUsername(" ", "Arbieto de Alvarado","Haydee"); 
+			System.out.println("Haydee found by firstname or lastname or username: " + userFoundByFirstNameOrLastNameOrUsername);
 			System.out.println();
 			
 			List<User> usersFetchByTeam = service.fetchUsersByTeam(foundTeam);
-			System.out.println("fetch users by team: " + usersFetchByTeam);
+			System.out.println("Fetch users by team: " + usersFetchByTeam);
 			System.out.println();
 			
-			User foundUser2 = service.findUserById(9L);
+			User foundUser2 = service.findUserById(4L);
 			User userInactivated = service.inactivateUser(foundUser2);
 			System.out.println("userInactivated: " + userInactivated);
 			System.out.println();
@@ -152,7 +153,7 @@ public final class Main
 //				service.addUserToTeam(foundTeam, new User("Sumireeeeeeeeeeeeeeeee" + i));
 //			}
 			
-			User henrikActivated = user3.setStatus(UserStatus.ACTIVE);
+			User henrikActivated = user1.setStatus(UserStatus.ACTIVE);
 			User henrikUpdated = service.createOrUpdateUser(henrikActivated);
 			
 //			Testar om exception kastas när flera än 5 WorkItem tilldelas till User
@@ -161,7 +162,7 @@ public final class Main
 //				service.assignWorkItemToUser(henrikUpdated, new WorkItem("diska" + i).setStatus(WorkItemStatus.DONE));
 //			}
 			
-			WorkItem foundWorkItem2 = service.findWorkItemById(10L).setStatus(WorkItemStatus.DONE);
+			/*WorkItem foundWorkItem2 = service.findWorkItemById(10L).setStatus(WorkItemStatus.DONE);
 			WorkItem workItemWithUpdatedIssue2 = service.updateIssue(foundWorkItem2, new Issue("Katten sover"));
 			System.out.println("workItemWithUpdatedIssue2: " + workItemWithUpdatedIssue2);
 			System.out.println();
@@ -171,7 +172,7 @@ public final class Main
 			User userWithRemovedWorkItem = removedWorkItem.getUser();
 			System.out.println("userWithRemovedWorkItem: " + userWithRemovedWorkItem);
 			User userFoundById = service.findUserById(userWithRemovedWorkItem.getId());
-			System.out.println(userFoundById.getUsername() + " är fortfarande i databasen!");
+			System.out.println(userFoundById.getUsername() + " är fortfarande i databasen!"); */
 		}
 	}
 }

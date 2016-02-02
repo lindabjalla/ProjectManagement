@@ -21,13 +21,13 @@ public class User
 	@Column(unique = true)
 	private String username;
 
-	@Column
+	@Column(nullable = false)
 	private String password;
 
-	@Column
+	@Column(nullable = false)
 	private String firstName;
 
-	@Column
+	@Column(nullable = false)
 	private String lastName;
 
 	@Column(unique = true)
@@ -39,17 +39,8 @@ public class User
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private Team team;
 
-	protected User()
-	{
-	}
-
-	// skapat den här konstruktorn temporart för att testa lättare
-	public User(String username)
-	{
-		this.username = username;
-		status = UserStatus.ACTIVE;
-	}
-
+	protected User(){}
+	
 	public User(String username, String password, String firstName, String lastName, String userNumber)
 	{
 		this.username = username;
@@ -123,9 +114,9 @@ public class User
 		{
 			User otherUser = (User) other;
 			return username.equals(otherUser.username) && password.equals(otherUser.password) &&
-					firstName.equals(otherUser.firstName) && lastName.equals(otherUser.lastName) &&
-					userNumber.equals(otherUser.userNumber) && status.equals(otherUser.status) &&
-					team.equals(otherUser.team);
+				   firstName.equals(otherUser.firstName) && lastName.equals(otherUser.lastName) &&
+				   userNumber.equals(otherUser.userNumber) && status.equals(otherUser.status) &&
+				   team.equals(otherUser.team);
 		}
 		return false;
 	}

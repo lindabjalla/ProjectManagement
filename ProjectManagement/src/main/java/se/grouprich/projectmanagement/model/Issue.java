@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Embeddable
 public class Issue
 {	
-	@Column(name = "issue", columnDefinition = "TEXT")
+	@Column(name = "issue", columnDefinition = "TEXT", nullable = false)
 	private String description;
 
 	protected Issue() {}
