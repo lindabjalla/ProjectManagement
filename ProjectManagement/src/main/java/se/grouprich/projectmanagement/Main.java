@@ -26,7 +26,7 @@ public final class Main
 
 			User user3 = new User("Henrikkkkkkkkkkkkkkkkkkkkkkkk");
 			
-//			Testar om exceptioin kastas om workItem tilldelas till INACTIVE user 
+//			Testar om exceptioin kastas när workItem tilldelas till INACTIVE user 
 //			User user3 = new User("Henrikkkkkkkkkkkkkkkkkkkkkkkk").setStatus(UserStatus.INACTIVE);
 			
 			WorkItem workItemForHenrik = service.assignWorkItemToUser(user3, new WorkItem("diska"));
@@ -37,7 +37,7 @@ public final class Main
 			System.out.println("team5: " + team5);
 			System.out.println();
 			
-			User henrik = service.findOneUser(1L);
+			User henrik = service.findUserById(1L);
 			User henrikJoinedTeam = service.addUserToTeam(team5, henrik);
 			System.out.println("henriksTeam: " + henrikJoinedTeam.getTeam());
 			System.out.println();
@@ -65,7 +65,7 @@ public final class Main
 			System.out.println("workItem1StatusChanged: " + workItem1StatusChanged);
 			System.out.println();
 			
-			List<WorkItem> workItemRemoved = service.removeWorkItem(workItem1StatusChanged);
+			WorkItem workItemRemoved = service.removeWorkItem(workItem1StatusChanged);
 			System.out.println("workItemRemoved: " + workItemRemoved);
 			System.out.println();
 			
@@ -91,12 +91,12 @@ public final class Main
 			System.out.println("hanaJoinedTeam7: " + hanaJoinedTeam7);
 			System.out.println();
 			
-			Team foundTeam = service.findOneTeam(8L);
+			Team foundTeam = service.findTeamById(8L);
 			List<WorkItem> workItemsFetchedForTeam = service.fetchWorkItemsForTeam(foundTeam);
 			System.out.println("workItemsFetchedForTeam: " + workItemsFetchedForTeam);
 			System.out.println();
 			
-			User foundUser = service.findOneUser(7L);
+			User foundUser = service.findUserById(7L);
 			
 			List<WorkItem> workItemsForUser = service.fetchWorkItemsForUser(foundUser);
 			System.out.println("workItemsForUser: " + workItemsForUser);
@@ -106,7 +106,7 @@ public final class Main
 			System.out.println("workItemsSearchedByKatt: " + workItemsSearchedByKatt);
 			System.out.println();
 			
-			WorkItem foundWorkItem = service.findOneWorkItem(10L).setStatus(WorkItemStatus.DONE);
+			WorkItem foundWorkItem = service.findWorkItemById(10L).setStatus(WorkItemStatus.DONE);
 			WorkItem workItemWithIssue = service.addIssueToWorkItem(foundWorkItem, new Issue("katten vill leka mer"));
 			System.out.println("workItemWithIssue: " + workItemWithIssue);
 			System.out.println();
@@ -140,7 +140,7 @@ public final class Main
 			System.out.println("fetch users by team: " + usersFetchByTeam);
 			System.out.println();
 			
-			User foundUser2 = service.findOneUser(9L);
+			User foundUser2 = service.findUserById(9L);
 			User userInactivated = service.inactivateUser(foundUser2);
 			System.out.println("userInactivated: " + userInactivated);
 			System.out.println();
@@ -156,10 +156,22 @@ public final class Main
 			User henrikUpdated = service.createOrUpdateUser(henrikActivated);
 			
 //			Testar om exception kastas när flera än 5 WorkItem tilldelas till User
-			for (int i = 0; i < 5; i++)
-			{
-				service.assignWorkItemToUser(henrikUpdated, new WorkItem("diska" + i).setStatus(WorkItemStatus.DONE));
-			}
+//			for (int i = 0; i < 5; i++)
+//			{
+//				service.assignWorkItemToUser(henrikUpdated, new WorkItem("diska" + i).setStatus(WorkItemStatus.DONE));
+//			}
+			
+			WorkItem foundWorkItem2 = service.findWorkItemById(10L).setStatus(WorkItemStatus.DONE);
+			WorkItem workItemWithUpdatedIssue2 = service.updateIssue(foundWorkItem2, new Issue("Katten sover"));
+			System.out.println("workItemWithUpdatedIssue2: " + workItemWithUpdatedIssue2);
+			System.out.println();
+			
+//			Testar om det går att ta bort WorkItem utan att påverka user
+			WorkItem removedWorkItem = service.removeWorkItem(foundWorkItem2);
+			User userWithRemovedWorkItem = removedWorkItem.getUser();
+			System.out.println("userWithRemovedWorkItem: " + userWithRemovedWorkItem);
+			User userFoundById = service.findUserById(userWithRemovedWorkItem.getId());
+			System.out.println(userFoundById.getUsername() + " är fortfarande i databasen!");
 		}
 	}
 }

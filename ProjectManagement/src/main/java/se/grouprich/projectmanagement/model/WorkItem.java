@@ -49,10 +49,20 @@ public class WorkItem
 	{
 		return id;
 	}
+	
+	public User getUser()
+	{
+		return user;
+	}
 
 	public WorkItemStatus getStatus()
 	{
 		return status;
+	}
+	
+	public Issue getIssue()
+	{
+		return issue;
 	}
 	
 	public WorkItem setStatus(WorkItemStatus status)

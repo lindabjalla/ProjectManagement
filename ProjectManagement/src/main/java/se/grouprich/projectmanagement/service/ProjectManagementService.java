@@ -35,7 +35,7 @@ public class ProjectManagementService
 	}
 
 	// Gjorde denna metod temporart bara för att testa
-	public User findOneUser(Long id)
+	public User findUserById(Long id)
 	{
 		return userRepository.findOne(id);
 	}
@@ -45,7 +45,8 @@ public class ProjectManagementService
 		if (!userRepository.isLengthInRange(user.getUsername()))
 		{
 			throw new IllegalArgumentException("Username must be longer than or equal to 10 characters");
-		}
+		}	
+		
 		return userRepository.save(user);
 	}
 
@@ -53,12 +54,14 @@ public class ProjectManagementService
 	public User inactivateUser(User user)
 	{
 		user.setStatus(UserStatus.INACTIVE);
+		
 		List<WorkItem> workItemsfoundByUser = workItemRepository.findByUser(user);
 		for (WorkItem workItem : workItemsfoundByUser)
 		{
 			workItem.setStatus(WorkItemStatus.UNSTARTED);
 			workItemRepository.save(workItem);
 		}
+		
 		return userRepository.save(user);
 	}
 
@@ -83,7 +86,7 @@ public class ProjectManagementService
 	}
 
 	// Gjorde denna metod temporart bara för att testa
-	public Team findOneTeam(Long id)
+	public Team findTeamById(Long id)
 	{
 		return teamRepository.findOne(id);
 	}
@@ -95,7 +98,7 @@ public class ProjectManagementService
 
 	public Team inactivateTeam(Team team)
 	{
-		team.setStatus(TeamStatus.INACTIVE);
+		team.setStatus(TeamStatus.INACTIVE);	
 		return teamRepository.save(team);
 	}
 
@@ -108,17 +111,19 @@ public class ProjectManagementService
 	public User addUserToTeam(Team team, User user) throws TeamException
 	{
 		Team savedTeam = teamRepository.save(team);
-		List<User> usersFoundByTeam = userRepository.findByTeam(savedTeam);
+		
+		List<User> usersFoundByTeam = userRepository.findByTeam(savedTeam);	
 		if (usersFoundByTeam.size() >= 10)
 		{
 			throw new TeamException("Maximum number of users in a Team is 10");
 		}
 		user.setTeam(savedTeam);
+		
 		return userRepository.save(user);
 	}
 
 	// Gjorde denna metod temporart bara för att testa
-	public WorkItem findOneWorkItem(Long id)
+	public WorkItem findWorkItemById(Long id)
 	{
 		return workItemRepository.findOne(id);
 	}
@@ -130,13 +135,13 @@ public class ProjectManagementService
 
 	public WorkItem changeWorkItemStatus(WorkItem workItem, WorkItemStatus status)
 	{
-		workItem.setStatus(status);
+		workItem.setStatus(status);	
 		return workItemRepository.save(workItem);
 	}
 
-	public List<WorkItem> removeWorkItem(WorkItem workItem)
+	public WorkItem removeWorkItem(WorkItem workItem)
 	{
-		return workItemRepository.removeById(workItem.getId());
+		return workItemRepository.removeById(workItem.getId()).get(0);
 	}
 
 	// Det finns ingen metod som gör merge i Springs CrudRepository så därför
@@ -146,17 +151,20 @@ public class ProjectManagementService
 	@Transactional
 	public WorkItem assignWorkItemToUser(User user, WorkItem workItem) throws WorkItemException
 	{
-		User savedUser = userRepository.save(user);
-		List<WorkItem> workItemsFoundByUser = workItemRepository.findByUser(savedUser);
+		User savedUser = userRepository.save(user);	
 		if (!UserStatus.ACTIVE.equals(savedUser.getStatus()))
 		{
 			throw new WorkItemException("A WorkItem can only be assigned to a User with UserStatus.ACTIVE");
 		}
+		
+		List<WorkItem> workItemsFoundByUser = workItemRepository.findByUser(savedUser);
 		if (workItemsFoundByUser.size() >= 5)
 		{
 			throw new WorkItemException("Maximum number of work items a User can have is 5");
 		}
+		
 		WorkItem assignedWorkItem = workItem.setUser(savedUser);
+		
 		return workItemRepository.save(assignedWorkItem);
 	}
 
@@ -188,13 +196,21 @@ public class ProjectManagementService
 			throw new WorkItemException("An Issue can only be added to a WorkItem with WorkItemStatus.DONE");
 		}
 		WorkItem workItemWithIssue = workItem.setIssue(issue);
+		
 		workItemWithIssue.setStatus(WorkItemStatus.UNSTARTED);
+		
 		return workItemRepository.save(workItemWithIssue);
 	}
 
 	public WorkItem updateIssue(WorkItem workItem, Issue issue) throws WorkItemException
 	{
-		return addIssueToWorkItem(workItem, issue);
+		if (workItem.getIssue() == null)
+		{
+			throw new WorkItemException("WorkItem has no issue");
+		}
+		WorkItem workItemWithUpdatedIssue = workItem.setIssue(issue);
+		
+		return workItemRepository.save(workItemWithUpdatedIssue);
 	}
 
 	public List<WorkItem> fetchWorkItemsWithIssue()
