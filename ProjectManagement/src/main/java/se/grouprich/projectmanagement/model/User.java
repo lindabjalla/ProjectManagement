@@ -3,6 +3,8 @@ package se.grouprich.projectmanagement.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -31,7 +33,7 @@ public class User
 	@Column(unique = true)
 	private String userNumber;
 
-	@Column
+	@Enumerated(EnumType.STRING)
 	private UserStatus status;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
@@ -45,6 +47,7 @@ public class User
 	public User(String username)
 	{
 		this.username = username;
+		status = UserStatus.ACTIVE;
 	}
 
 	public User(String username, String password, String firstName, String lastName, String userNumber)
@@ -97,9 +100,10 @@ public class User
 		return team;
 	}
 
-	public void setStatus(UserStatus status)
+	public User setStatus(UserStatus status)
 	{
 		this.status = status;
+		return this;
 	}
 
 	public void setTeam(Team team)

@@ -1,6 +1,6 @@
 package se.grouprich.projectmanagement.exception;
 
-public class TeamException extends Exception
+public final class TeamException extends Exception
 {
 	private static final long serialVersionUID = 1L;
 

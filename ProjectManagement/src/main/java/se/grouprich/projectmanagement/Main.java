@@ -5,16 +5,18 @@ import java.util.List;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import se.grouprich.projectmanagement.exception.TeamException;
+import se.grouprich.projectmanagement.exception.WorkItemException;
 import se.grouprich.projectmanagement.model.Issue;
 import se.grouprich.projectmanagement.model.Team;
 import se.grouprich.projectmanagement.model.User;
 import se.grouprich.projectmanagement.model.WorkItem;
 import se.grouprich.projectmanagement.service.ProjectManagementService;
+import se.grouprich.projectmanagement.status.UserStatus;
 import se.grouprich.projectmanagement.status.WorkItemStatus;
 
 public final class Main
 {
-	public static void main(String[] args) throws TeamException
+	public static void main(String[] args) throws TeamException, WorkItemException
 	{
 		try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext())
 		{
@@ -23,6 +25,10 @@ public final class Main
 			ProjectManagementService service = context.getBean(ProjectManagementService.class);
 
 			User user3 = new User("Henrikkkkkkkkkkkkkkkkkkkkkkkk");
+			
+//			Testar om exceptioin kastas om workItem tilldelas till INACTIVE user 
+//			User user3 = new User("Henrikkkkkkkkkkkkkkkkkkkkkkkk").setStatus(UserStatus.INACTIVE);
+			
 			WorkItem workItemForHenrik = service.assignWorkItemToUser(user3, new WorkItem("diska"));
 			System.out.println("workItemForHenrik: " + workItemForHenrik);
 			System.out.println();
@@ -31,7 +37,7 @@ public final class Main
 			System.out.println("team5: " + team5);
 			System.out.println();
 			
-			User henrik = service.findOneUser(2L);
+			User henrik = service.findOneUser(1L);
 			User henrikJoinedTeam = service.addUserToTeam(team5, henrik);
 			System.out.println("henriksTeam: " + henrikJoinedTeam.getTeam());
 			System.out.println();
@@ -141,10 +147,18 @@ public final class Main
 			
 //			Testar om exception kastas när ett Team har flera än 10 medlemmar.
 //			Om du inte vill få TeamException(Team has already 10 members) kommentera bort den här for-loopen.
-			for (int i = 0; i < 10; i++)
+//			for (int i = 0; i < 10; i++)
+//			{
+//				service.addUserToTeam(foundTeam, new User("Sumireeeeeeeeeeeeeeeee" + i));
+//			}
+			
+			User henrikActivated = user3.setStatus(UserStatus.ACTIVE);
+			User henrikUpdated = service.createOrUpdateUser(henrikActivated);
+			
+			for (int i = 0; i < 5; i++)
 			{
-				service.addUserToTeam(foundTeam, new User("Sumireeeeeeeeeeeeeeeee" + i));
-			}	
+				service.assignWorkItemToUser(henrikUpdated, new WorkItem("diska" + i));
+			}
 		}
 	}
 }

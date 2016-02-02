@@ -30,7 +30,7 @@ public class WorkItem
 
 	@Enumerated(EnumType.STRING)
 	private WorkItemStatus status;
-	
+
 	@Embedded
 	private Issue issue;
 
@@ -65,7 +65,7 @@ public class WorkItem
 		this.user = user;
 		return this;
 	}
-	
+
 	public WorkItem setIssue(Issue issue)
 	{
 		this.issue = issue;

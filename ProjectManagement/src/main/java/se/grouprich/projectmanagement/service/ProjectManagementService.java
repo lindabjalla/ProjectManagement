@@ -3,10 +3,12 @@ package se.grouprich.projectmanagement.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.UsesSunHttpServer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import se.grouprich.projectmanagement.exception.TeamException;
+import se.grouprich.projectmanagement.exception.WorkItemException;
 import se.grouprich.projectmanagement.model.Issue;
 import se.grouprich.projectmanagement.model.Team;
 import se.grouprich.projectmanagement.model.User;
@@ -44,7 +46,7 @@ public class ProjectManagementService
 	{
 		if (!userRepository.isLengthInRange(user.getUsername()))
 		{
-			throw new IllegalArgumentException("username must be longer than or equal to 10 characters");
+			throw new IllegalArgumentException("Username must be longer than or equal to 10 characters");
 		}
 		return userRepository.save(user);
 	}
@@ -111,7 +113,7 @@ public class ProjectManagementService
 		List<User> usersFoundByTeam = userRepository.findByTeam(savedTeam);
 		if (usersFoundByTeam.size() >= 10)
 		{
-			throw new TeamException("Team has already 10 members");
+			throw new TeamException("Maximum number of users in a Team is 10");
 		}
 		user.setTeam(savedTeam);
 		return userRepository.save(user);
@@ -144,11 +146,20 @@ public class ProjectManagementService
 	// manuellt sätt. Jag fick samma problem som den här nedan.
 	// http://stackoverflow.com/questions/16559407/spring-data-jpa-save-new-entity-referencing-existing-one
 	@Transactional
-	public WorkItem assignWorkItemToUser(User user, WorkItem workItem)
+	public WorkItem assignWorkItemToUser(User user, WorkItem workItem) throws WorkItemException
 	{
-		WorkItem savedWorkItem = workItemRepository.save(workItem);
-		WorkItem workItemWithUser = savedWorkItem.setUser(user);
-		return workItemRepository.save(workItemWithUser);
+		User savedUser = userRepository.save(user);
+		List<WorkItem> workItemsFoundByUser = workItemRepository.findByUser(savedUser);
+		if (!savedUser.getStatus().equals(UserStatus.ACTIVE))
+		{
+			throw new WorkItemException("A WorkItem can only be assigned to a User with UserStatus.ACTIVE");
+		}
+		if (workItemsFoundByUser.size() >= 5)
+		{
+			throw new WorkItemException("Maximum number of work items a User can have is 5");
+		}
+		WorkItem assignedWorkItem = workItem.setUser(savedUser);
+		return workItemRepository.save(assignedWorkItem);
 	}
 
 	public List<WorkItem> fetchWorkItemsByStatus(WorkItemStatus status)
