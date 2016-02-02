@@ -25,7 +25,6 @@ public class ProjectManagementService
 	private UserRepository userRepository;
 	private TeamRepository teamRepository;
 	private WorkItemRepository workItemRepository;
-	// private IssueRepository issueRepository;
 
 	@Autowired
 	public ProjectManagementService(UserRepository userRepository, TeamRepository teamRepository, WorkItemRepository workItemRepository)
@@ -149,7 +148,7 @@ public class ProjectManagementService
 	{
 		User savedUser = userRepository.save(user);
 		List<WorkItem> workItemsFoundByUser = workItemRepository.findByUser(savedUser);
-		if (!savedUser.getStatus().equals(UserStatus.ACTIVE))
+		if (!UserStatus.ACTIVE.equals(savedUser.getStatus()))
 		{
 			throw new WorkItemException("A WorkItem can only be assigned to a User with UserStatus.ACTIVE");
 		}
@@ -181,15 +180,21 @@ public class ProjectManagementService
 		return workItemRepository.findByDescriptionContaining(keyword);
 	}
 
-	public WorkItem createAndAddIssueToWorkItem(WorkItem workItem, Issue issue)
+	@Transactional
+	public WorkItem addIssueToWorkItem(WorkItem workItem, Issue issue) throws WorkItemException
 	{
+		if (issue != null && !WorkItemStatus.DONE.equals(workItem.getStatus()))
+		{
+			throw new WorkItemException("An Issue can only be added to a WorkItem with WorkItemStatus.DONE");
+		}
 		WorkItem workItemWithIssue = workItem.setIssue(issue);
+		workItemWithIssue.setStatus(WorkItemStatus.UNSTARTED);
 		return workItemRepository.save(workItemWithIssue);
 	}
 
-	public WorkItem updateIssue(WorkItem workItem, Issue issue)
+	public WorkItem updateIssue(WorkItem workItem, Issue issue) throws WorkItemException
 	{
-		return createAndAddIssueToWorkItem(workItem, issue);
+		return addIssueToWorkItem(workItem, issue);
 	}
 
 	public List<WorkItem> fetchWorkItemsWithIssue()

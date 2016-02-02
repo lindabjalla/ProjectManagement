@@ -28,6 +28,7 @@ public class WorkItem
 	@Column(columnDefinition = "TEXT")
 	private String description;
 
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private WorkItemStatus status;
 
@@ -41,6 +42,7 @@ public class WorkItem
 	public WorkItem(String title)
 	{
 		this.title = title;
+		status = WorkItemStatus.UNSTARTED;
 	}
 
 	public Long getId()
@@ -48,6 +50,11 @@ public class WorkItem
 		return id;
 	}
 
+	public WorkItemStatus getStatus()
+	{
+		return status;
+	}
+	
 	public WorkItem setStatus(WorkItemStatus status)
 	{
 		this.status = status;

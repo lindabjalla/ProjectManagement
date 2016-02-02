@@ -106,8 +106,8 @@ public final class Main
 			System.out.println("workItemsSearchedByKatt: " + workItemsSearchedByKatt);
 			System.out.println();
 			
-			WorkItem foundWorkItem = service.findOneWorkItem(10L);
-			WorkItem workItemWithIssue = service.createAndAddIssueToWorkItem(foundWorkItem, new Issue("katten vill leka mer"));
+			WorkItem foundWorkItem = service.findOneWorkItem(10L).setStatus(WorkItemStatus.DONE);
+			WorkItem workItemWithIssue = service.addIssueToWorkItem(foundWorkItem, new Issue("katten vill leka mer"));
 			System.out.println("workItemWithIssue: " + workItemWithIssue);
 			System.out.println();
 			
@@ -115,7 +115,7 @@ public final class Main
 			System.out.println("workItemWithUpdatedIssue: " + workItemWithUpdatedIssue);
 			System.out.println();
 			
-			service.createAndAddIssueToWorkItem(workItemWithUpdatedIssue, new Issue("katten är nu trött"));
+			service.addIssueToWorkItem(workItemWithUpdatedIssue.setStatus(WorkItemStatus.DONE), new Issue("katten är nu trött"));
 			List<WorkItem> workItemsWithIssue = service.fetchWorkItemsWithIssue();
 			System.out.println("workItemsWithIssue: " + workItemsWithIssue);
 			System.out.println();
@@ -155,9 +155,10 @@ public final class Main
 			User henrikActivated = user3.setStatus(UserStatus.ACTIVE);
 			User henrikUpdated = service.createOrUpdateUser(henrikActivated);
 			
+//			Testar om exception kastas när flera än 5 WorkItem tilldelas till User
 			for (int i = 0; i < 5; i++)
 			{
-				service.assignWorkItemToUser(henrikUpdated, new WorkItem("diska" + i));
+				service.assignWorkItemToUser(henrikUpdated, new WorkItem("diska" + i).setStatus(WorkItemStatus.DONE));
 			}
 		}
 	}
