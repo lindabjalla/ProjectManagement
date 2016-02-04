@@ -2,24 +2,17 @@ package se.grouprich.projectmanagement.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Entity
-public class Issue
+public class Issue extends AbstractEntity
 {
-	@Id
-	@GeneratedValue
-	private Long id;
-
 	@Column(name = "issue", columnDefinition = "TEXT", nullable = false)
 	private String description;
 
-	@Column(nullable = false)
 	@ManyToOne
 	private WorkItem workItem;
 

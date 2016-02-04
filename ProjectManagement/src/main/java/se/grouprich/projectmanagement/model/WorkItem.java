@@ -5,19 +5,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import se.grouprich.projectmanagement.status.WorkItemStatus;
 
 @Entity
-public class WorkItem
+public class WorkItem extends AbstractEntity
 {
-	@Id
-	@GeneratedValue
-	private Long id;
-
 	@Column(nullable = false)
 	private String title;
 
