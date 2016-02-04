@@ -51,6 +51,7 @@ public class ProjectManagementService
 		{
 			throw new IllegalArgumentException("Username must be longer than or equal to 10 characters");
 		}
+		
 		return userRepository.save(user);
 	}
 
@@ -65,7 +66,7 @@ public class ProjectManagementService
 			workItem.setStatus(WorkItemStatus.UNSTARTED);
 			workItemRepository.save(workItem);
 		}
-		
+
 		return userRepository.save(user);
 	}
 
@@ -155,7 +156,7 @@ public class ProjectManagementService
 		{
 			throw new WorkItemException("A WorkItem can only be assigned to a User with UserStatus.ACTIVE");
 		}
-		
+
 		List<WorkItem> workItemsFoundByUser = workItemRepository.findByUser(savedUser);
 		if (workItemsFoundByUser.size() >= 5)
 		{
@@ -194,6 +195,10 @@ public class ProjectManagementService
 	@Transactional
 	public Issue createAndAddIssueToWorkItem(WorkItem workItem, Issue issue) throws WorkItemException
 	{
+		if (workItem == null)
+		{
+			throw new WorkItemException("WorkItem must not be null");
+		}
 		if (!WorkItemStatus.DONE.equals(workItem.getStatus()))
 		{
 			throw new WorkItemException("An Issue can only be added to a WorkItem with WorkItemStatus.DONE");

@@ -4,18 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 import se.grouprich.projectmanagement.status.TeamStatus;
 
 @Entity
-public class Team
+public class Team extends AbstractEntity
 {
-	@Id
-	@GeneratedValue
-	private Long id;
-
 	@Column(nullable = false)
 	private String name;
 

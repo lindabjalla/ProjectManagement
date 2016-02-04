@@ -24,7 +24,4 @@ public interface WorkItemRepository extends CrudRepository<WorkItem, Long>
 	List<WorkItem> findForTeam(Team team);
 	
 	List<WorkItem> findByUser(User user);
-	
-	@Query("SELECT w FROM #{#entityName} w WHERE w.issue != null")
-	List<WorkItem> findWorkItemsWithIssue();
 }
