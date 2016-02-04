@@ -40,6 +40,11 @@ public class Team
 		return name;
 	}
 	
+	public TeamStatus getStatus()
+	{
+		return status;
+	}
+	
 	public void setName(String name)
 	{
 		this.name = name;

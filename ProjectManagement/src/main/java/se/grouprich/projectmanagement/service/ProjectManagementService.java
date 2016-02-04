@@ -40,7 +40,6 @@ public class ProjectManagementService
 		this.issueRepository = issueRepository;
 	}
 
-	// Gjorde denna metod temporart bara för att testa
 	public User findUserById(Long id)
 	{
 		return userRepository.findOne(id);
@@ -91,7 +90,6 @@ public class ProjectManagementService
 		return userRepository.findByTeam(team);
 	}
 
-	// Gjorde denna metod temporart bara för att testa
 	public Team findTeamById(Long id)
 	{
 		return teamRepository.findOne(id);
@@ -124,11 +122,9 @@ public class ProjectManagementService
 			throw new TeamException("Maximum number of users in a Team is 10");
 		}
 		user.setTeam(savedTeam);
-
 		return userRepository.save(user);
 	}
 
-	// Gjorde denna metod temporart bara för att testa
 	public WorkItem findWorkItemById(Long id)
 	{
 		return workItemRepository.findOne(id);
@@ -152,10 +148,6 @@ public class ProjectManagementService
 		return workItemRepository.removeById(workItem.getId()).get(0);
 	}
 
-	// Det finns ingen metod som gör merge i Springs CrudRepository så därför
-	// gjorde jag så här på
-	// manuellt sätt. Jag fick samma problem som den här nedan.
-	// http://stackoverflow.com/questions/16559407/spring-data-jpa-save-new-entity-referencing-existing-one
 	@Transactional
 	public WorkItem assignWorkItemToUser(User user, WorkItem workItem) throws WorkItemException
 	{
@@ -172,7 +164,6 @@ public class ProjectManagementService
 		}
 
 		WorkItem assignedWorkItem = workItem.setUser(savedUser);
-
 		return workItemRepository.save(assignedWorkItem);
 	}
 
@@ -208,6 +199,7 @@ public class ProjectManagementService
 		{
 			throw new WorkItemException("An Issue can only be added to a WorkItem with WorkItemStatus.DONE");
 		}
+		
 		Issue issueAddedToWorkItem = issue.setWorkItem(workItem);
 		workItem.setStatus(WorkItemStatus.UNSTARTED);
 
@@ -216,9 +208,9 @@ public class ProjectManagementService
 
 	public Issue updateIssue(Issue issue) throws RepositoryException
 	{
-		if (issueRepository.findOne(issue.getId()).equals(""))
+		if (issue.getId() == null)
 		{
-			throw new RepositoryException("No issue with id: " + issue.getId() + "found");
+			throw new RepositoryException("Issue does not exists");
 		}
 		return issueRepository.save(issue);
 	}

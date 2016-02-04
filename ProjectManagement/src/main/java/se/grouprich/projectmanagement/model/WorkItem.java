@@ -18,7 +18,7 @@ public class WorkItem
 	@GeneratedValue
 	private Long id;
 
-	@Column
+	@Column(nullable = false)
 	private String title;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
@@ -31,9 +31,7 @@ public class WorkItem
 	@Enumerated(EnumType.STRING)
 	private WorkItemStatus status;
 
-	protected WorkItem()
-	{
-	}
+	protected WorkItem(){}
 
 	public WorkItem(String title)
 	{

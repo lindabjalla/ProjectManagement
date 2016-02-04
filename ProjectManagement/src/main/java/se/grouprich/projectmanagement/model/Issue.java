@@ -16,15 +16,14 @@ public class Issue
 	@GeneratedValue
 	private Long id;
 
-	@Column(name = "issue", columnDefinition = "TEXT")
+	@Column(name = "issue", columnDefinition = "TEXT", nullable = false)
 	private String description;
 
+	@Column(nullable = false)
 	@ManyToOne
 	private WorkItem workItem;
 
-	protected Issue()
-	{
-	}
+	protected Issue(){}
 
 	public Issue(String description)
 	{
@@ -89,4 +88,3 @@ public class Issue
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 }
-

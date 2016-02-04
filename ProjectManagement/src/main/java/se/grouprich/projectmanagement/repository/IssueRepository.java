@@ -15,8 +15,6 @@ public interface IssueRepository extends CrudRepository<Issue, Long>
 	@Query("SELECT i.workItem FROM #{#entityName} i")
 	Set<WorkItem> findWorkItemsHavingIssue();
 	
-	List<Issue> findByWorkItem(WorkItem workItem);
-	
 	@Transactional
 	List<Issue> removeByWorkItem(WorkItem workItem);
 }
