@@ -202,7 +202,7 @@ public class ProjectManagementService
 	}
 
 	@Transactional
-	public Issue createAndAddIssueToWorkItem(WorkItem workItem, Issue issue) throws WorkItemException
+	public Issue addIssueToWorkItem(WorkItem workItem, Issue issue) throws WorkItemException
 	{
 		if (!WorkItemStatus.DONE.equals(workItem.getStatus()))
 		{

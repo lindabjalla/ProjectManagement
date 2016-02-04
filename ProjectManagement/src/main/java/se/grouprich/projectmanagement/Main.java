@@ -109,7 +109,7 @@ public final class Main
 			System.out.println();
 			
 			WorkItem foundWorkItem = service.findWorkItemById(10L).setStatus(WorkItemStatus.DONE);
-			Issue issueAssignedToWorkItem = service.createAndAddIssueToWorkItem(foundWorkItem, new Issue("katten vill leka mer"));
+			Issue issueAssignedToWorkItem = service.addIssueToWorkItem(foundWorkItem, new Issue("katten vill leka mer"));
 			System.out.println("issueAssignedToWorkItem: " + issueAssignedToWorkItem);
 			System.out.println();
 			
@@ -118,7 +118,7 @@ public final class Main
 			System.out.println("workItemWithUpdatedIssue: " + updatedIssue);
 			System.out.println();
 			
-			service.createAndAddIssueToWorkItem(foundWorkItem.setStatus(WorkItemStatus.DONE), new Issue("katten är nu trött"));
+			service.addIssueToWorkItem(foundWorkItem.setStatus(WorkItemStatus.DONE), new Issue("katten är nu trött"));
 			Set<WorkItem> workItemsWithIssue = service.fetchWorkItemsHavingIssue();
 			System.out.println("workItemsWithIssue: " + workItemsWithIssue);
 			System.out.println();
@@ -170,7 +170,7 @@ public final class Main
 			System.out.println();
 			
 			WorkItem foundWorkItem1 = service.findWorkItemById(2L);
-			service.createAndAddIssueToWorkItem(foundWorkItem1.setStatus(WorkItemStatus.DONE), new Issue("riskorn sitter fortfarande fast i skålarna"));
+			service.addIssueToWorkItem(foundWorkItem1.setStatus(WorkItemStatus.DONE), new Issue("riskorn sitter fortfarande fast i skålarna"));
 			
 //			Testar om det går att ta bort WorkItem utan att påverka user
 			WorkItem removedWorkItem = service.removeWorkItem(updatedIssue2.getWorkItem());
@@ -185,6 +185,10 @@ public final class Main
 			
 			WorkItem workItemKattPromenad = service.findWorkItemById(7L);
 			service.removeWorkItem(workItemKattPromenad);
+			
+			service.createOrUpdateWorkItem(new WorkItem("Baka chokladtårta"));
+			Set<WorkItem> workItemsHavingIssue = service.fetchWorkItemsHavingIssue();
+			System.out.println("workItemsHavingIssue: " + workItemsHavingIssue);
 		}
 	}
 }
