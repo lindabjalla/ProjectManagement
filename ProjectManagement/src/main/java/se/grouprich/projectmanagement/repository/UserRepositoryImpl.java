@@ -2,7 +2,6 @@ package se.grouprich.projectmanagement.repository;
 
 public class UserRepositoryImpl implements UserRepositoryCustom
 {
-
 	@Override
 	public boolean isLengthInRange(String username)
 	{

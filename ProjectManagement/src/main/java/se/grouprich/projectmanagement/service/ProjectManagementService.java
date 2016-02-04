@@ -1,17 +1,20 @@
 package se.grouprich.projectmanagement.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import se.grouprich.projectmanagement.exception.RepositoryException;
 import se.grouprich.projectmanagement.exception.TeamException;
 import se.grouprich.projectmanagement.exception.WorkItemException;
 import se.grouprich.projectmanagement.model.Issue;
 import se.grouprich.projectmanagement.model.Team;
 import se.grouprich.projectmanagement.model.User;
 import se.grouprich.projectmanagement.model.WorkItem;
+import se.grouprich.projectmanagement.repository.IssueRepository;
 import se.grouprich.projectmanagement.repository.TeamRepository;
 import se.grouprich.projectmanagement.repository.UserRepository;
 import se.grouprich.projectmanagement.repository.WorkItemRepository;
@@ -25,13 +28,16 @@ public class ProjectManagementService
 	private UserRepository userRepository;
 	private TeamRepository teamRepository;
 	private WorkItemRepository workItemRepository;
+	private IssueRepository issueRepository;
 
 	@Autowired
-	public ProjectManagementService(UserRepository userRepository, TeamRepository teamRepository, WorkItemRepository workItemRepository)
+	public ProjectManagementService(UserRepository userRepository, TeamRepository teamRepository, WorkItemRepository workItemRepository,
+			IssueRepository issueRepository)
 	{
 		this.userRepository = userRepository;
 		this.teamRepository = teamRepository;
 		this.workItemRepository = workItemRepository;
+		this.issueRepository = issueRepository;
 	}
 
 	public User findUserById(Long id)
@@ -44,8 +50,7 @@ public class ProjectManagementService
 		if (!userRepository.isLengthInRange(user.getUsername()))
 		{
 			throw new IllegalArgumentException("Username must be longer than or equal to 10 characters");
-		}	
-		
+		}
 		return userRepository.save(user);
 	}
 
@@ -53,7 +58,7 @@ public class ProjectManagementService
 	public User inactivateUser(User user)
 	{
 		user.setStatus(UserStatus.INACTIVE);
-		
+
 		List<WorkItem> workItemsfoundByUser = workItemRepository.findByUser(user);
 		for (WorkItem workItem : workItemsfoundByUser)
 		{
@@ -96,7 +101,7 @@ public class ProjectManagementService
 
 	public Team inactivateTeam(Team team)
 	{
-		team.setStatus(TeamStatus.INACTIVE);	
+		team.setStatus(TeamStatus.INACTIVE);
 		return teamRepository.save(team);
 	}
 
@@ -109,14 +114,13 @@ public class ProjectManagementService
 	public User addUserToTeam(Team team, User user) throws TeamException
 	{
 		Team savedTeam = teamRepository.save(team);
-		
-		List<User> usersFoundByTeam = userRepository.findByTeam(savedTeam);	
+
+		List<User> usersFoundByTeam = userRepository.findByTeam(savedTeam);
 		if (usersFoundByTeam.size() >= 10)
 		{
 			throw new TeamException("Maximum number of users in a Team is 10");
 		}
 		user.setTeam(savedTeam);
-		
 		return userRepository.save(user);
 	}
 
@@ -132,19 +136,21 @@ public class ProjectManagementService
 
 	public WorkItem changeWorkItemStatus(WorkItem workItem, WorkItemStatus status)
 	{
-		workItem.setStatus(status);	
+		workItem.setStatus(status);
 		return workItemRepository.save(workItem);
 	}
 
+	@Transactional
 	public WorkItem removeWorkItem(WorkItem workItem)
 	{
+		issueRepository.removeByWorkItem(workItem);
 		return workItemRepository.removeById(workItem.getId()).get(0);
 	}
 
 	@Transactional
 	public WorkItem assignWorkItemToUser(User user, WorkItem workItem) throws WorkItemException
 	{
-		User savedUser = userRepository.save(user);	
+		User savedUser = userRepository.save(user);
 		if (!UserStatus.ACTIVE.equals(savedUser.getStatus()))
 		{
 			throw new WorkItemException("A WorkItem can only be assigned to a User with UserStatus.ACTIVE");
@@ -155,9 +161,8 @@ public class ProjectManagementService
 		{
 			throw new WorkItemException("Maximum number of work items a User can have is 5");
 		}
-		
+
 		WorkItem assignedWorkItem = workItem.setUser(savedUser);
-		
 		return workItemRepository.save(assignedWorkItem);
 	}
 
@@ -181,33 +186,36 @@ public class ProjectManagementService
 		return workItemRepository.findByDescriptionContaining(keyword);
 	}
 
-	@Transactional
-	public WorkItem addIssueToWorkItem(WorkItem workItem, Issue issue) throws WorkItemException
+	public Issue findIssueById(Long id)
 	{
-		if (issue != null && !WorkItemStatus.DONE.equals(workItem.getStatus()))
+		return issueRepository.findOne(id);
+	}
+
+	@Transactional
+	public Issue createAndAddIssueToWorkItem(WorkItem workItem, Issue issue) throws WorkItemException
+	{
+		if (!WorkItemStatus.DONE.equals(workItem.getStatus()))
 		{
 			throw new WorkItemException("An Issue can only be added to a WorkItem with WorkItemStatus.DONE");
 		}
-		WorkItem workItemWithIssue = workItem.setIssue(issue);
 		
-		workItemWithIssue.setStatus(WorkItemStatus.UNSTARTED);
-		
-		return workItemRepository.save(workItemWithIssue);
+		Issue issueAddedToWorkItem = issue.setWorkItem(workItem);
+		workItem.setStatus(WorkItemStatus.UNSTARTED);
+
+		return issueRepository.save(issueAddedToWorkItem);
 	}
 
-	public WorkItem updateIssue(WorkItem workItem, Issue issue) throws WorkItemException
+	public Issue updateIssue(Issue issue) throws RepositoryException
 	{
-		if (workItem.getIssue() == null)
+		if (issue.getId() == null)
 		{
-			throw new WorkItemException("WorkItem has no issue");
+			throw new RepositoryException("Issue does not exists");
 		}
-		WorkItem workItemWithUpdatedIssue = workItem.setIssue(issue);
-		
-		return workItemRepository.save(workItemWithUpdatedIssue);
+		return issueRepository.save(issue);
 	}
 
-	public List<WorkItem> fetchWorkItemsWithIssue()
+	public Set<WorkItem> fetchWorkItemsHavingIssue()
 	{
-		return workItemRepository.findWorkItemsWithIssue();
+		return issueRepository.findWorkItemsHavingIssue();
 	}
 }
