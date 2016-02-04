@@ -2,7 +2,6 @@ package se.grouprich.projectmanagement.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,9 +31,6 @@ public class WorkItem
 	@Enumerated(EnumType.STRING)
 	private WorkItemStatus status;
 
-	@Embedded
-	private Issue issue;
-
 	protected WorkItem()
 	{
 	}
@@ -60,11 +56,6 @@ public class WorkItem
 		return status;
 	}
 	
-	public Issue getIssue()
-	{
-		return issue;
-	}
-	
 	public WorkItem setStatus(WorkItemStatus status)
 	{
 		this.status = status;
@@ -83,15 +74,9 @@ public class WorkItem
 		return this;
 	}
 
-	public WorkItem setIssue(Issue issue)
-	{
-		this.issue = issue;
-		return this;
-	}
-
 	@Override
 	public String toString()
 	{
-		return "WorkItem [id=" + id + ", title=" + title + ", user=" + user + ", description=" + description + ", status=" + status + ", issue=" + issue + "]";
+		return "WorkItem [id=" + id + ", title=" + title + ", user=" + user + ", description=" + description + ", status=" + status + "]";
 	}
 }

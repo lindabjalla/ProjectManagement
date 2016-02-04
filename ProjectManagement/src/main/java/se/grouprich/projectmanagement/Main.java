@@ -1,9 +1,11 @@
 package se.grouprich.projectmanagement;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import se.grouprich.projectmanagement.exception.RepositoryException;
 import se.grouprich.projectmanagement.exception.TeamException;
 import se.grouprich.projectmanagement.exception.WorkItemException;
 import se.grouprich.projectmanagement.model.Issue;
@@ -16,7 +18,7 @@ import se.grouprich.projectmanagement.status.WorkItemStatus;
 
 public final class Main
 {
-	public static void main(String[] args) throws TeamException, WorkItemException
+	public static void main(String[] args) throws TeamException, WorkItemException, RepositoryException
 	{
 		try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext())
 		{
@@ -107,16 +109,17 @@ public final class Main
 			System.out.println();
 			
 			WorkItem foundWorkItem = service.findWorkItemById(10L).setStatus(WorkItemStatus.DONE);
-			WorkItem workItemWithIssue = service.addIssueToWorkItem(foundWorkItem, new Issue("katten vill leka mer"));
-			System.out.println("workItemWithIssue: " + workItemWithIssue);
+			Issue issueAssignedToWorkItem = service.createAndAddIssueToWorkItem(foundWorkItem, new Issue("katten vill leka mer"));
+			System.out.println("issueAssignedToWorkItem: " + issueAssignedToWorkItem);
 			System.out.println();
 			
-			WorkItem workItemWithUpdatedIssue = service.updateIssue(workItemWithIssue, null);
-			System.out.println("workItemWithUpdatedIssue: " + workItemWithUpdatedIssue);
+			Issue foundIssue = service.findIssueById(12L);
+			Issue updatedIssue = service.updateIssue(foundIssue.setDescription("katten vill äta nu"));
+			System.out.println("workItemWithUpdatedIssue: " + updatedIssue);
 			System.out.println();
 			
-			service.addIssueToWorkItem(workItemWithUpdatedIssue.setStatus(WorkItemStatus.DONE), new Issue("katten är nu trött"));
-			List<WorkItem> workItemsWithIssue = service.fetchWorkItemsWithIssue();
+			service.createAndAddIssueToWorkItem(foundWorkItem.setStatus(WorkItemStatus.DONE), new Issue("katten är nu trött"));
+			Set<WorkItem> workItemsWithIssue = service.fetchWorkItemsHavingIssue();
 			System.out.println("workItemsWithIssue: " + workItemsWithIssue);
 			System.out.println();
 			
@@ -161,17 +164,27 @@ public final class Main
 //				service.assignWorkItemToUser(henrikUpdated, new WorkItem("diska" + i).setStatus(WorkItemStatus.DONE));
 //			}
 			
-			WorkItem foundWorkItem2 = service.findWorkItemById(10L).setStatus(WorkItemStatus.DONE);
-			WorkItem workItemWithUpdatedIssue2 = service.updateIssue(foundWorkItem2, new Issue("Katten sover"));
-			System.out.println("workItemWithUpdatedIssue2: " + workItemWithUpdatedIssue2);
+			Issue foundIssue2 = service.findIssueById(12L);
+			Issue updatedIssue2 = service.updateIssue(foundIssue2.setDescription("Katten sover"));
+			System.out.println("updatedIssue2: " + updatedIssue2);
 			System.out.println();
 			
+			WorkItem foundWorkItem1 = service.findWorkItemById(2L);
+			service.createAndAddIssueToWorkItem(foundWorkItem1.setStatus(WorkItemStatus.DONE), new Issue("riskorn sitter fortfarande fast i skålarna"));
+			
 //			Testar om det går att ta bort WorkItem utan att påverka user
-			WorkItem removedWorkItem = service.removeWorkItem(foundWorkItem2);
+			WorkItem removedWorkItem = service.removeWorkItem(updatedIssue2.getWorkItem());
+			System.out.println("removedWorkItem: " + removedWorkItem);
+			System.out.println();
+			
 			User userWithRemovedWorkItem = removedWorkItem.getUser();
 			System.out.println("userWithRemovedWorkItem: " + userWithRemovedWorkItem);
 			User userFoundById = service.findUserById(userWithRemovedWorkItem.getId());
 			System.out.println(userFoundById.getUsername() + " är fortfarande i databasen!");
+			System.out.println();
+			
+			WorkItem workItemKattPromenad = service.findWorkItemById(7L);
+			service.removeWorkItem(workItemKattPromenad);
 		}
 	}
 }
