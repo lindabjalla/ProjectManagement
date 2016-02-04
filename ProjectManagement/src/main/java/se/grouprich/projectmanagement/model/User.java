@@ -91,9 +91,10 @@ public class User extends AbstractEntity
 		return this;
 	}
 
-	public void setTeam(Team team)
+	public User setTeam(Team team)
 	{
 		this.team = team;
+		return this;
 	}
 
 	@Override

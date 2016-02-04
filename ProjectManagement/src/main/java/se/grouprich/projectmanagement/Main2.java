@@ -21,11 +21,20 @@ public final class Main2
 			context.refresh();
 			ProjectManagementService service = context.getBean(ProjectManagementService.class);
 			
-			service.createOrUpdateTeam(new Team("Team Forest"));
-			service.createOrUpdateUser(new User("SumireSumire", "12345", "Sumire", "Suzuki", "100"));
+			Team createdTeam = service.createOrUpdateTeam(new Team("Team Forest"));
+			User createdUser = service.createOrUpdateUser(new User("SumireSumire", "12345", "Sumire", "Suzuki", "100"));
 			WorkItem createdWorkItem = service.createOrUpdateWorkItem(new WorkItem("Fånga en fågel"));
 			
 			service.addIssueToWorkItem(createdWorkItem.setStatus(WorkItemStatus.DONE), new Issue("fågel finns inte"));
+			
+			service.inactivateTeam(createdTeam);
+			
+			service.createOrUpdateTeam(new Team("Team Flower"));
+			
+			Iterable<Team> allTeams = service.fetchAllTeams();
+			System.out.println(allTeams);
+			
+			service.addUserToTeam(createdTeam, new User("100KopparKaffe", "44444", "Kaffe", "Sugen", "101"));
 		}
 	}
 }

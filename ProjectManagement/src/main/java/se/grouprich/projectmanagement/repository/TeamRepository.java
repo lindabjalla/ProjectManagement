@@ -4,5 +4,4 @@ import org.springframework.data.repository.CrudRepository;
 
 import se.grouprich.projectmanagement.model.Team;
 
-public interface TeamRepository extends CrudRepository<Team, Long>{}
-
+public interface TeamRepository extends CrudRepository<Team, Long>, TeamRepositoryCustom{}
