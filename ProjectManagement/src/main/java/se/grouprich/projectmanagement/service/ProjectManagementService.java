@@ -195,11 +195,15 @@ public class ProjectManagementService
 	@Transactional
 	public Issue addIssueToWorkItem(WorkItem workItem, Issue issue) throws WorkItemException
 	{
+		if (workItem == null)
+		{
+			throw new WorkItemException("WorkItem must not be null");
+		}
 		if (!WorkItemStatus.DONE.equals(workItem.getStatus()))
 		{
 			throw new WorkItemException("An Issue can only be added to a WorkItem with WorkItemStatus.DONE");
 		}
-		
+
 		Issue issueAddedToWorkItem = issue.setWorkItem(workItem);
 		workItem.setStatus(WorkItemStatus.UNSTARTED);
 

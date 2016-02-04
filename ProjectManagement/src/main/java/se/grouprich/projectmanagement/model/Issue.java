@@ -2,6 +2,7 @@ package se.grouprich.projectmanagement.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -14,6 +15,7 @@ public class Issue extends AbstractEntity
 	private String description;
 
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private WorkItem workItem;
 
 	protected Issue(){}
