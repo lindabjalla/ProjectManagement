@@ -115,14 +115,9 @@ public class ProjectManagementService
 	public User addUserToTeam(Team team, User user) throws TeamException
 	{
 		Team savedTeam = teamRepository.save(team);
+		User userWithTeam = teamRepository.addUserToTeam(savedTeam, user, userRepository);
 
-		List<User> usersFoundByTeam = userRepository.findByTeam(savedTeam);
-		if (usersFoundByTeam.size() >= 10)
-		{
-			throw new TeamException("Maximum number of users in a Team is 10");
-		}
-		user.setTeam(savedTeam);
-		return userRepository.save(user);
+		return userRepository.save(userWithTeam);
 	}
 
 	public WorkItem findWorkItemById(Long id)

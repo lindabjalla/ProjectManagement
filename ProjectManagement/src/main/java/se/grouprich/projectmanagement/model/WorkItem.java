@@ -73,7 +73,7 @@ public class WorkItem extends AbstractEntity
 		{
 			return true;
 		}
-
+		
 		if (other instanceof WorkItem)
 		{
 			WorkItem otherWorkItem = (WorkItem) other;
