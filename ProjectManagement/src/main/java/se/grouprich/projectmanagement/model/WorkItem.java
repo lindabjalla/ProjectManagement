@@ -32,9 +32,6 @@ public class WorkItem
 	@Enumerated(EnumType.STRING)
 	private WorkItemStatus status;
 
-	@Embedded
-	private Issue issue;
-
 	protected WorkItem(){}
 
 	public WorkItem(String title)
@@ -57,12 +54,7 @@ public class WorkItem
 	{
 		return status;
 	}
-	
-	public Issue getIssue()
-	{
-		return issue;
-	}
-	
+
 	public WorkItem setStatus(WorkItemStatus status)
 	{
 		this.status = status;
@@ -80,12 +72,6 @@ public class WorkItem
 		this.user = user;
 		return this;
 	}
-
-	public WorkItem setIssue(Issue issue)
-	{
-		this.issue = issue;
-		return this;
-	}
 	
 	@Override
 	public boolean equals(final Object other)
@@ -99,8 +85,7 @@ public class WorkItem
 		{
 			WorkItem otherWorkItem = (WorkItem) other;
 			return title.equals(otherWorkItem.title) && user.equals(otherWorkItem.user) &&
-				   description.equals(otherWorkItem.description) && status.equals(otherWorkItem.status) && 
-				   issue.equals(otherWorkItem.issue);
+				   description.equals(otherWorkItem.description) && status.equals(otherWorkItem.status);
 		}
 		return false;
 	}
@@ -113,7 +98,6 @@ public class WorkItem
 		result += user.hashCode() * 37;
 		result += description.hashCode() * 37;
 		result += status.hashCode() * 37;
-		result += issue.hashCode() * 37;
 
 		return result;
 	}
@@ -122,6 +106,6 @@ public class WorkItem
 	@Override
 	public String toString()
 	{
-		return "WorkItem [id=" + id + ", title=" + title + ", user=" + user + ", description=" + description + ", status=" + status + ", issue=" + issue + "]";
+		return "WorkItem [id=" + id + ", title=" + title + ", user=" + user + ", description=" + description + ", status=" + status + "]";
 	}
 }
