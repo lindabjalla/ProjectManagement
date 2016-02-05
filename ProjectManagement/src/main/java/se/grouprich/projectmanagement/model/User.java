@@ -84,6 +84,17 @@ public class User extends AbstractEntity
 	{
 		return team;
 	}
+	
+	public User setUsername(String username)
+	{
+		this.username = username;
+		return this;
+	}
+	
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
 
 	public User setStatus(UserStatus status)
 	{

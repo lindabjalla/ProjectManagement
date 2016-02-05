@@ -1,5 +1,9 @@
 package se.grouprich.projectmanagement;
 
+import java.util.List;
+
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import se.grouprich.projectmanagement.exception.TeamException;
@@ -8,7 +12,11 @@ import se.grouprich.projectmanagement.model.Issue;
 import se.grouprich.projectmanagement.model.Team;
 import se.grouprich.projectmanagement.model.User;
 import se.grouprich.projectmanagement.model.WorkItem;
+import se.grouprich.projectmanagement.service.IssueService;
 import se.grouprich.projectmanagement.service.ProjectManagementService;
+import se.grouprich.projectmanagement.service.TeamService;
+import se.grouprich.projectmanagement.service.UserService;
+import se.grouprich.projectmanagement.service.WorkItemService;
 import se.grouprich.projectmanagement.status.WorkItemStatus;
 
 public final class Main2
@@ -19,22 +27,54 @@ public final class Main2
 		{
 			context.scan("se.grouprich.projectmanagement");
 			context.refresh();
-			ProjectManagementService service = context.getBean(ProjectManagementService.class);
+			UserService userService = context.getBean(UserService.class);
+			TeamService teamService = context.getBean(TeamService.class);
+			WorkItemService workItemService = context.getBean(WorkItemService.class);
+			IssueService issueService = context.getBean(IssueService.class);
 			
-			Team createdTeam = service.createOrUpdateTeam(new Team("Team Forest"));
-			User createdUser = service.createOrUpdateUser(new User("SumireSumire", "12345", "Sumire", "Suzuki", "100"));
-			WorkItem createdWorkItem = service.createOrUpdateWorkItem(new WorkItem("Fånga en fågel"));
+			System.out.println();
+			User user1 = userService.createOrUpdateUser(new User("IzumiJapan", "12345", "Izumi", "Suzuki", "101"));
+			User user2 = userService.createOrUpdateUser(new User("HaydeePeru", "123", "Haydee", "Arbieto de Alvarado", "102"));
+			User user3 = userService.createOrUpdateUser(new User("CristianChile", "345", "Cristian", "Gonzales", "103"));
 			
-			service.createAndAddIssueToWorkItem(createdWorkItem.setStatus(WorkItemStatus.DONE), new Issue("fågel finns inte"));
 			
-			service.inactivateTeam(createdTeam);
+			Team createdTeam = teamService.createOrUpdateTeam(new Team("Team Forest"));
+			User user4 = userService.createOrUpdateUser(new User("RodionEstland", "1234", "Rodion", "Estland", "104"));
+			WorkItem createdWorkItem = workItemService.createOrUpdateWorkItem(new WorkItem("Fånga en fågel").setStatus(WorkItemStatus.STARTED));
 			
-			service.createOrUpdateTeam(new Team("Team Flower"));
+			System.out.println("createdWorkItem: " + createdWorkItem);
+			System.out.println();
 			
-			Iterable<Team> allTeams = service.fetchAllTeams();
+			User updatedUser = userService.createOrUpdateUser(user2.setUsername("Son Goku Gahahaha"));
+			workItemService.assignWorkItemToUser(updatedUser, createdWorkItem);
+			
+			userService.inactivateUser(updatedUser);
+			
+			issueService.createAndAddIssueToWorkItem(createdWorkItem.setStatus(WorkItemStatus.DONE), new Issue("fågel finns inte"));
+			
+			teamService.inactivateTeam(createdTeam);
+			
+			Team teamA = teamService.createOrUpdateTeam(new Team("TeamA"));
+			
+			Iterable<Team> allTeams = teamService.fetchAllTeams();
 			System.out.println(allTeams);
 			
-			service.addUserToTeam(createdTeam, new User("100KopparKaffe", "44444", "Kaffe", "Sugen", "101"));
+			teamService.addUserToTeam(createdTeam, new User("100KopparKaffe", "44444", "Kaffe", "Sugen", "105"));
+			
+			User userFetchedByUserNumber101 = userService.fetchUserByUserNumber("101");
+			System.out.println("User fetch by userNumber 101: " + userFetchedByUserNumber101);
+			
+			User userSearchByExactMatching = userService.searchUserByFirstNameAndLastNameAndUsername("Haydee", "Arbieto de Alvarado", "Son Goku Gahahaha");
+			System.out.println("User search by exact matching: " + userSearchByExactMatching);
+			
+			List<User> userSearchBySomeName = userService.searchUserByFirstNameOrLastNameOrUsername(" ", "Suzuki", "RodionEstland");
+			System.out.println("Search users Susuki och Rodion: " + userSearchBySomeName);
+			
+			User user1AddedToTeamA = teamService.addUserToTeam(teamA, user1);
+			System.out.println("User1 joined to teamA: " + user1AddedToTeamA);
+			
+			
+			
 		}
 	}
 }
