@@ -12,8 +12,8 @@ public class TeamRepositoryImpl extends AbstractRepository<Team> implements Numb
 	{
 		if (team.getEntityNumber() == null)
 		{
-			List<Team> teamsOrderedByDESCNumber = teamRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
-			return super.setEntityNumber(teamsOrderedByDESCNumber, team);
+			List<Team> foundTeam = teamRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
+			return super.setEntityNumber(foundTeam, team);
 		}
 		return team;
 	}

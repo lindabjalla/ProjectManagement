@@ -12,8 +12,8 @@ public class WorkItemRepositoryImpl extends AbstractRepository<WorkItem> impleme
 	{
 		if (workItem.getEntityNumber() == null)
 		{
-			List<WorkItem> workItemsOrderedByDESCNumber = workItemRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
-			return super.setEntityNumber(workItemsOrderedByDESCNumber, workItem);
+			List<WorkItem> foundWorkItem = workItemRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
+			return super.setEntityNumber(foundWorkItem, workItem);
 		}
 		return workItem;
 	}

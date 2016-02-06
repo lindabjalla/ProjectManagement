@@ -12,8 +12,8 @@ public class IssueRepositoryImpl extends AbstractRepository<Issue> implements Nu
 	{
 		if (issue.getEntityNumber() == null)
 		{
-			List<Issue> issuesOrderedByDESCEntityNumber = issueRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
-			return super.setEntityNumber(issuesOrderedByDESCEntityNumber, issue);
+			List<Issue> foundIssue = issueRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
+			return super.setEntityNumber(foundIssue, issue);
 		}
 		return issue;
 	}

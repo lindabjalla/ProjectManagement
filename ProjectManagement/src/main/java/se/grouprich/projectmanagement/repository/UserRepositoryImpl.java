@@ -12,8 +12,8 @@ public class UserRepositoryImpl extends AbstractRepository<User> implements Numb
 	{
 		if (user.getEntityNumber() == null)
 		{
-			List<User> usersOrderedByDESCNumber = userRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
-			return super.setEntityNumber(usersOrderedByDESCNumber, user);
+			List<User> foundTeam = userRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
+			return super.setEntityNumber(foundTeam, user);
 		}
 		return user;
 	}
