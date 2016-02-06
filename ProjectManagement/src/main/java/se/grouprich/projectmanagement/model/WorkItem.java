@@ -33,11 +33,6 @@ public class WorkItem extends AbstractEntity
 		status = WorkItemStatus.UNSTARTED;
 	}
 
-	public Long getId()
-	{
-		return id;
-	}
-	
 	public User getUser()
 	{
 		return user;

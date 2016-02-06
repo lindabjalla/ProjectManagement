@@ -12,23 +12,16 @@ import se.grouprich.projectmanagement.repository.IssueRepository;
 import se.grouprich.projectmanagement.status.WorkItemStatus;
 
 @Service
-public class IssueService //extends AbstractProjectManagementService
+public class IssueService extends AbstractService<Issue, IssueRepository>
 {
-	private IssueRepository issueRepository;
-	
 	@Autowired
-	public IssueService(IssueRepository issueRepository)
+	IssueService(IssueRepository repository)
 	{
-		this.issueRepository = issueRepository;
-	}
-	
-	public Issue findIssueById(Long id)
-	{
-		return issueRepository.findOne(id);
+		super(repository);
 	}
 
 	@Transactional
-	public Issue createAndAddIssueToWorkItem(WorkItem workItem, Issue issue) throws WorkItemException
+	public Issue createAndAddToWorkItem(WorkItem workItem, Issue issue) throws WorkItemException
 	{
 		if (workItem == null)
 		{
@@ -38,11 +31,11 @@ public class IssueService //extends AbstractProjectManagementService
 		{
 			throw new WorkItemException("An Issue can only be added to a WorkItem with WorkItemStatus.DONE");
 		}
-		
+
 		Issue issueAddedToWorkItem = issue.setWorkItem(workItem);
 		workItem.setStatus(WorkItemStatus.UNSTARTED);
 
-		return issueRepository.save(issueAddedToWorkItem);
+		return createOrUpdate(issueAddedToWorkItem);
 	}
 
 	public Issue updateIssue(Issue issue) throws RepositoryException
@@ -51,6 +44,7 @@ public class IssueService //extends AbstractProjectManagementService
 		{
 			throw new RepositoryException("Issue does not exists");
 		}
-		return issueRepository.save(issue);
+		
+		return createOrUpdate(issue);
 	}
 }

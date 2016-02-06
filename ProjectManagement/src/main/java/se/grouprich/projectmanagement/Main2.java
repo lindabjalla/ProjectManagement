@@ -2,8 +2,6 @@ package se.grouprich.projectmanagement;
 
 import java.util.List;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import se.grouprich.projectmanagement.exception.TeamException;
@@ -13,7 +11,6 @@ import se.grouprich.projectmanagement.model.Team;
 import se.grouprich.projectmanagement.model.User;
 import se.grouprich.projectmanagement.model.WorkItem;
 import se.grouprich.projectmanagement.service.IssueService;
-import se.grouprich.projectmanagement.service.ProjectManagementService;
 import se.grouprich.projectmanagement.service.TeamService;
 import se.grouprich.projectmanagement.service.UserService;
 import se.grouprich.projectmanagement.service.WorkItemService;
@@ -38,9 +35,9 @@ public final class Main2
 			User user3 = userService.createOrUpdateUser(new User("CristianChile", "345", "Cristian", "Gonzales", "103"));
 			
 			
-			Team createdTeam = teamService.createOrUpdateTeam(new Team("Team Forest"));
+			Team createdTeam = teamService.createOrUpdate(new Team("Team Forest"));
 			User user4 = userService.createOrUpdateUser(new User("RodionEstland", "1234", "Rodion", "Estland", "104"));
-			WorkItem createdWorkItem = workItemService.createOrUpdateWorkItem(new WorkItem("Fånga en fågel").setStatus(WorkItemStatus.STARTED));
+			WorkItem createdWorkItem = workItemService.createOrUpdate(new WorkItem("Fånga en fågel").setStatus(WorkItemStatus.STARTED));
 			
 			System.out.println("createdWorkItem: " + createdWorkItem);
 			System.out.println();
@@ -50,13 +47,13 @@ public final class Main2
 			
 			userService.inactivateUser(updatedUser);
 			
-			issueService.createAndAddIssueToWorkItem(createdWorkItem.setStatus(WorkItemStatus.DONE), new Issue("fågel finns inte"));
+			issueService.createAndAddToWorkItem(createdWorkItem.setStatus(WorkItemStatus.DONE), new Issue("fågel finns inte"));
 			
 			teamService.inactivateTeam(createdTeam);
 			
-			Team teamA = teamService.createOrUpdateTeam(new Team("TeamA"));
+			Team teamA = teamService.createOrUpdate(new Team("TeamA"));
 			
-			Iterable<Team> allTeams = teamService.fetchAllTeams();
+			Iterable<Team> allTeams = teamService.findAll();
 			System.out.println(allTeams);
 			
 			teamService.addUserToTeam(createdTeam, new User("100KopparKaffe", "44444", "Kaffe", "Sugen", "105"));
@@ -71,10 +68,7 @@ public final class Main2
 			System.out.println("Search users Susuki och Rodion: " + userSearchBySomeName);
 			
 			User user1AddedToTeamA = teamService.addUserToTeam(teamA, user1);
-			System.out.println("User1 joined to teamA: " + user1AddedToTeamA);
-			
-			
-			
+			System.out.println("User1 joined to teamA: " + user1AddedToTeamA);	
 		}
 	}
 }

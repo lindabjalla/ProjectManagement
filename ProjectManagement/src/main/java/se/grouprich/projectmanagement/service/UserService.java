@@ -15,31 +15,25 @@ import se.grouprich.projectmanagement.status.UserStatus;
 import se.grouprich.projectmanagement.status.WorkItemStatus;
 
 @Service
-public class UserService //extends AbstractProjectManagementService
-{
-	private UserRepository userRepository;
+public class UserService extends AbstractService<User, UserRepository>
+{	
 	private WorkItemRepository workItemRepository;
 	
 	@Autowired
-	public UserService(UserRepository userRepository, WorkItemRepository workItemRepository)
+	UserService(UserRepository superRepository, WorkItemRepository workItemRepository)
 	{
-		this.userRepository = userRepository;
+		super(superRepository);
 		this.workItemRepository = workItemRepository;
 	}
-	
-	public User findById(Long id)
-	{
-		return userRepository.findOne(id);
-	}
-	
+
 	public User createOrUpdateUser(User user)
 	{
-		if (!isLengthInRange(user.getUsername()))
+		if (!hasValidLength(user.getUsername()))
 		{
 			throw new IllegalArgumentException("Username must be longer than or equal to 10 characters");
 		}
 		
-		return userRepository.save(user);
+		return createOrUpdate(user);
 	}
 	
 	@Transactional
@@ -54,30 +48,30 @@ public class UserService //extends AbstractProjectManagementService
 			workItemRepository.save(workItem);
 		}	
 		
-		return userRepository.save(user);
+		return createOrUpdate(user);
 	}
 	
 	public User fetchUserByUserNumber(String userNumber)
 	{
-		return userRepository.findByUserNumber(userNumber);
+		return superRepository.findByUserNumber(userNumber);
 	}
 
 	public User searchUserByFirstNameAndLastNameAndUsername(String firstName, String lastName, String username)
 	{
-		return userRepository.findByFirstNameAndLastNameAndUsername(firstName, lastName, username);
+		return superRepository.findByFirstNameAndLastNameAndUsername(firstName, lastName, username);
 	}
 
 	public List<User> searchUserByFirstNameOrLastNameOrUsername(String firstName, String lastName, String username)
 	{
-		return userRepository.findAllByFirstNameOrLastNameOrUsername(firstName, lastName, username);
+		return superRepository.findAllByFirstNameOrLastNameOrUsername(firstName, lastName, username);
 	}
 
 	public List<User> fetchUsersByTeam(Team team)
 	{
-		return userRepository.findByTeam(team);
+		return superRepository.findByTeam(team);
 	}
 	
-	private boolean isLengthInRange(String username)
+	private boolean hasValidLength(String username)
 	{
 		if(username != null && !username.trim().isEmpty())
 		{

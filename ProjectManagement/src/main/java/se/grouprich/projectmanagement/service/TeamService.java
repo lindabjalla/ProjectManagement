@@ -14,49 +14,28 @@ import se.grouprich.projectmanagement.repository.UserRepository;
 import se.grouprich.projectmanagement.status.TeamStatus;
 
 @Service
-public class TeamService //extends AbstractProjectManagementService
-{
-	private TeamRepository teamRepository;
+public class TeamService extends AbstractService<Team, TeamRepository>
+{	
 	private UserRepository userRepository;
-	
+
 	@Autowired
-	public TeamService(TeamRepository teamRepository, UserRepository userRepository)
+	TeamService(TeamRepository teamRepository, UserRepository userRepository)
 	{
-		this.teamRepository = teamRepository;
+		super(teamRepository);
 		this.userRepository = userRepository;
 	}
 	
-	public TeamService(TeamRepository teamRepository)
-	{
-		this.teamRepository = teamRepository;
-	}
-
-	public Team findTeamById(Long id)
-	{
-		return teamRepository.findOne(id);
-	}
-
-	public Team createOrUpdateTeam(Team team)
-	{
-		return teamRepository.save(team);
-	}
-
 	public Team inactivateTeam(Team team)
 	{
 		team.setStatus(TeamStatus.INACTIVE);
-		return teamRepository.save(team);
-	}
-
-	public Iterable<Team> fetchAllTeams()
-	{
-		return teamRepository.findAll();
+		return createOrUpdate(team);
 	}
 	
 	@Transactional
 	public User addUserToTeam(Team team, User user) throws TeamException
 	{
-		Team savedTeam = teamRepository.save(team);
-		
+		Team savedTeam = createOrUpdate(team);
+
 		List<User> usersFoundByTeam = userRepository.findByTeam(savedTeam);
 		if (usersFoundByTeam.size() >= 10)
 		{

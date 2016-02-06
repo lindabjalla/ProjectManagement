@@ -23,11 +23,6 @@ public class Team extends AbstractEntity
 		this.name = name;
 		status = TeamStatus.ACTIVE;
 	}
-	
-	public Long getId()
-	{
-		return id;
-	}
 
 	public String getName()
 	{
