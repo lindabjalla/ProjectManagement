@@ -15,7 +15,7 @@ import se.grouprich.projectmanagement.status.TeamStatus;
 
 @Service
 public class TeamService extends AbstractService<Team, TeamRepository>
-{	
+{
 	private UserRepository userRepository;
 
 	@Autowired
@@ -24,13 +24,19 @@ public class TeamService extends AbstractService<Team, TeamRepository>
 		super(superRepository);
 		this.userRepository = userRepository;
 	}
-	
+
+	public Team createOrUpdate(Team team)
+	{
+		superRepository.setEntityNumber(superRepository, team);
+		return super.createOrUpdate(team);
+	}
+
 	public Team inactivateTeam(final Team team)
 	{
 		team.setStatus(TeamStatus.INACTIVE);
 		return createOrUpdate(team);
 	}
-	
+
 	@Transactional
 	public User addUserToTeam(final Team team, final User user) throws TeamException
 	{
@@ -41,8 +47,10 @@ public class TeamService extends AbstractService<Team, TeamRepository>
 		{
 			throw new TeamException("Maximum number of users in a Team is 10");
 		}
+
+		userRepository.setEntityNumber(userRepository, user);
 		User userWithTeam = user.setTeam(savedTeam);
 
 		return userRepository.save(userWithTeam);
-	}	
+	}
 }

@@ -1,5 +1,6 @@
 package se.grouprich.projectmanagement.model;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -11,8 +12,21 @@ public abstract class AbstractEntity
 	@GeneratedValue
 	Long id;
 	
+	@Column(nullable = false, unique = true)
+	Long entityNumber;
+	
 	public Long getId()
 	{
 		return id;
+	}
+	
+	public Long getEntityNumber()
+	{
+		return entityNumber;
+	}
+	
+	public void setEntityNumber(Long entityNumber)
+	{
+		this.entityNumber = entityNumber;
 	}
 }

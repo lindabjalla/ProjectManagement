@@ -24,9 +24,7 @@ public class User extends AbstractEntity
 	@Column(nullable = false)
 	private String lastName;
 
-	@Column(nullable = false, unique = true)
-	private String userNumber;
-
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private UserStatus status;
 
@@ -35,13 +33,12 @@ public class User extends AbstractEntity
 
 	protected User(){}
 	
-	public User(final String username, final String password, final String firstName, final String lastName, final String userNumber)
+	public User(final String username, final String password, final String firstName, final String lastName)
 	{
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.userNumber = userNumber;
 		status = UserStatus.ACTIVE;
 	}
 
@@ -63,11 +60,6 @@ public class User extends AbstractEntity
 	public String getLastName()
 	{
 		return lastName;
-	}
-
-	public String getUserNumber()
-	{
-		return userNumber;
 	}
 
 	public UserStatus getStatus()
@@ -116,8 +108,7 @@ public class User extends AbstractEntity
 			User otherUser = (User) other;
 			return username.equals(otherUser.username) && password.equals(otherUser.password) &&
 				   firstName.equals(otherUser.firstName) && lastName.equals(otherUser.lastName) &&
-				   userNumber.equals(otherUser.userNumber) && status.equals(otherUser.status) &&
-				   team.equals(otherUser.team);
+				   entityNumber.equals(otherUser.entityNumber) && status.equals(otherUser.status);
 		}
 		return false;
 	}
@@ -126,13 +117,12 @@ public class User extends AbstractEntity
 	public int hashCode()
 	{
 		int result = 1;
+		result += entityNumber.hashCode() * 37;
 		result += username.hashCode() * 37;
 		result += password.hashCode() * 37;
 		result += firstName.hashCode() * 37;
 		result += lastName.hashCode() * 37;
-		result += userNumber.hashCode() * 37;
 		result += status.hashCode() * 37;
-		result += team.hashCode() * 37;
 
 		return result;
 	}
@@ -141,6 +131,6 @@ public class User extends AbstractEntity
 	public String toString()
 	{
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", userNumber="
-				+ userNumber + ", status=" + status + ", team=" + team + "]";
+				+ entityNumber + ", status=" + status + ", team=" + team + "]";
 	}
 }

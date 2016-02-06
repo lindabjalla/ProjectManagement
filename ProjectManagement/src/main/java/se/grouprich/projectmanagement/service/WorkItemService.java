@@ -1,7 +1,6 @@
 package se.grouprich.projectmanagement.service;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,13 +21,19 @@ public class WorkItemService extends AbstractService<WorkItem, WorkItemRepositor
 {
 	private IssueRepository issueRepository;
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	WorkItemService(WorkItemRepository superRepository, IssueRepository issueRepository, UserRepository userRepository)
 	{
 		super(superRepository);
 		this.issueRepository = issueRepository;
-		this.userRepository = userRepository;	
+		this.userRepository = userRepository;
+	}
+
+	public WorkItem createOrUpdate(WorkItem workItem)
+	{
+		superRepository.setEntityNumber(superRepository, workItem);
+		return super.createOrUpdate(workItem);
 	}
 
 	public WorkItem changeWorkItemStatus(WorkItem workItem, WorkItemStatus status)
@@ -43,12 +48,7 @@ public class WorkItemService extends AbstractService<WorkItem, WorkItemRepositor
 		issueRepository.removeByWorkItem(workItem);
 		return superRepository.removeById(workItem.getId()).get(0);
 	}
-	
-	public Set<WorkItem> fetchWorkItemsHavingIssue()
-	{
-		return issueRepository.findWorkItemsHavingIssue();
-	}
-	
+
 	@Transactional
 	public WorkItem assignWorkItemToUser(User user, WorkItem workItem) throws WorkItemException
 	{

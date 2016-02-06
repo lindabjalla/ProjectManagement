@@ -5,9 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 @Entity
 public class Issue extends AbstractEntity
 {
@@ -20,7 +17,7 @@ public class Issue extends AbstractEntity
 
 	protected Issue(){}
 
-	public Issue(String description)
+	public Issue(final String description)
 	{
 		this.description = description;
 	}
@@ -40,13 +37,13 @@ public class Issue extends AbstractEntity
 		return workItem;
 	}
 
-	public Issue setDescription(String description)
+	public Issue setDescription(final String description)
 	{
 		this.description = description;
 		return this;
 	}
 
-	public Issue setWorkItem(WorkItem workItem)
+	public Issue setWorkItem(final WorkItem workItem)
 	{
 		this.workItem = workItem;
 		return this;
@@ -63,7 +60,7 @@ public class Issue extends AbstractEntity
 		if (other instanceof Issue)
 		{
 			Issue otherIssue = (Issue) other;
-			return description.equals(otherIssue.description);
+			return entityNumber.equals(otherIssue.entityNumber) && description.equals(otherIssue.description);
 		}
 		return false;
 	}
@@ -72,6 +69,7 @@ public class Issue extends AbstractEntity
 	public int hashCode()
 	{
 		int result = 1;
+		result += entityNumber.hashCode() * 37;
 		result += description.hashCode() * 37;
 
 		return result;
@@ -80,6 +78,6 @@ public class Issue extends AbstractEntity
 	@Override
 	public String toString()
 	{
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+		return "Issue [id=" + id + ", entityNumber=" + entityNumber + ", description=" + description + ", workItem=" + workItem + "]";
 	}
 }

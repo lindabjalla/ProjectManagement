@@ -1,5 +1,9 @@
 package se.grouprich.projectmanagement.service;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +19,13 @@ import se.grouprich.projectmanagement.status.WorkItemStatus;
 public class IssueService extends AbstractService<Issue, IssueRepository>
 {
 	@Autowired
-	IssueService(IssueRepository repository)
+	IssueService(final IssueRepository superRepository)
 	{
-		super(repository);
+		super(superRepository);
 	}
 
 	@Transactional
-	public Issue createAndAddToWorkItem(WorkItem workItem, Issue issue) throws WorkItemException
+	public Issue createAndAddToWorkItem(final WorkItem workItem, final Issue issue) throws WorkItemException
 	{
 		if (workItem == null)
 		{
@@ -31,20 +35,30 @@ public class IssueService extends AbstractService<Issue, IssueRepository>
 		{
 			throw new WorkItemException("An Issue can only be added to a WorkItem with WorkItemStatus.DONE");
 		}
-
-		Issue issueAddedToWorkItem = issue.setWorkItem(workItem);
-		workItem.setStatus(WorkItemStatus.UNSTARTED);
+		
+		superRepository.setEntityNumber(superRepository, issue);
+		final WorkItem unstartedWorkItem = workItem.setStatus(WorkItemStatus.UNSTARTED);
+		final Issue issueAddedToWorkItem = issue.setWorkItem(unstartedWorkItem);
 
 		return createOrUpdate(issueAddedToWorkItem);
 	}
 
-	public Issue updateIssue(Issue issue) throws RepositoryException
+	public Issue updateIssue(final Issue issue) throws RepositoryException
 	{
 		if (issue.getId() == null)
 		{
 			throw new RepositoryException("Issue does not exist");
 		}
-		
+
 		return createOrUpdate(issue);
+	}
+
+	public Set<WorkItem> fetchWorkItemsHavingIssue()
+	{
+		List<WorkItem> workItemsHavingIssue = superRepository.findWorkItemsHavingIssue();
+		Set<WorkItem> nonDuplicateWorkItems = new HashSet<>();
+		nonDuplicateWorkItems.addAll(workItemsHavingIssue);
+		
+		return nonDuplicateWorkItems;
 	}
 }

@@ -16,9 +16,9 @@ import se.grouprich.projectmanagement.status.WorkItemStatus;
 
 @Service
 public class UserService extends AbstractService<User, UserRepository>
-{	
+{
 	private WorkItemRepository workItemRepository;
-	
+
 	@Autowired
 	UserService(UserRepository superRepository, WorkItemRepository workItemRepository)
 	{
@@ -32,10 +32,10 @@ public class UserService extends AbstractService<User, UserRepository>
 		{
 			throw new IllegalArgumentException("Username must be longer than or equal to 10 characters");
 		}
-		
+		superRepository.setEntityNumber(superRepository, user);
 		return super.createOrUpdate(user);
 	}
-	
+
 	@Transactional
 	public User inactivateUser(User user)
 	{
@@ -46,14 +46,14 @@ public class UserService extends AbstractService<User, UserRepository>
 		{
 			workItem.setStatus(WorkItemStatus.UNSTARTED);
 			workItemRepository.save(workItem);
-		}	
-		
+		}
+
 		return createOrUpdate(user);
 	}
-	
-	public User fetchUserByUserNumber(String userNumber)
+
+	public User findByNumber(Long number)
 	{
-		return superRepository.findByUserNumber(userNumber);
+		return superRepository.findByEntityNumber(number);
 	}
 
 	public User searchUserByFirstNameAndLastNameAndUsername(String firstName, String lastName, String username)
@@ -70,12 +70,12 @@ public class UserService extends AbstractService<User, UserRepository>
 	{
 		return superRepository.findByTeam(team);
 	}
-	
+
 	private boolean hasValidLength(String username)
 	{
-		if(username != null && !username.trim().isEmpty())
+		if (username != null && !username.trim().isEmpty())
 		{
-			if(username.length() >= 10)
+			if (username.length() >= 10)
 			{
 				return true;
 			}

@@ -11,7 +11,7 @@ import se.grouprich.projectmanagement.model.User;
 import se.grouprich.projectmanagement.model.WorkItem;
 import se.grouprich.projectmanagement.status.WorkItemStatus;
 
-public interface WorkItemRepository extends CrudRepository<WorkItem, Long>
+public interface WorkItemRepository extends CrudRepository<WorkItem, Long>, NumberSetter<WorkItem, WorkItemRepository>
 {
 	@Transactional
 	List<WorkItem> removeById(Long id);
@@ -24,4 +24,7 @@ public interface WorkItemRepository extends CrudRepository<WorkItem, Long>
 	List<WorkItem> findByTeam(Team team);
 	
 	List<WorkItem> findByUser(User user);
+	
+	@Query("SELECT w FROM #{#entityName} w order by w.entityNumber DESC")
+	List<WorkItem> findAllOrderedByDESCEntityNumber();
 }

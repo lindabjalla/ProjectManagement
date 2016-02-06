@@ -8,17 +8,17 @@ public abstract class AbstractService<E extends AbstractEntity, R extends CrudRe
 {
 	protected R superRepository;
 
-	AbstractService(R superRepository)
+	AbstractService(final R superRepository)
 	{
 		this.superRepository = superRepository;
 	}
 
-	public E findById(Long id)
+	public E findById(final Long id)
 	{
 		return superRepository.findOne(id);
 	}
 
-	public E createOrUpdate(E entity)
+	public E createOrUpdate(final E entity)
 	{
 		return superRepository.save(entity);
 	}
