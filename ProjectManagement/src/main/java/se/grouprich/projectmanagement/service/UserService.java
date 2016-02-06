@@ -26,14 +26,14 @@ public class UserService extends AbstractService<User, UserRepository>
 		this.workItemRepository = workItemRepository;
 	}
 
-	public User createOrUpdateUser(User user)
+	public User createOrUpdate(User user)
 	{
 		if (!hasValidLength(user.getUsername()))
 		{
 			throw new IllegalArgumentException("Username must be longer than or equal to 10 characters");
 		}
 		
-		return createOrUpdate(user);
+		return super.createOrUpdate(user);
 	}
 	
 	@Transactional

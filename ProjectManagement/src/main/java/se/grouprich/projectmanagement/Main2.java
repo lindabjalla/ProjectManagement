@@ -30,19 +30,19 @@ public final class Main2
 			IssueService issueService = context.getBean(IssueService.class);
 			
 			System.out.println();
-			User user1 = userService.createOrUpdateUser(new User("IzumiJapan", "12345", "Izumi", "Suzuki", "101"));
-			User user2 = userService.createOrUpdateUser(new User("HaydeePeru", "123", "Haydee", "Arbieto de Alvarado", "102"));
-			User user3 = userService.createOrUpdateUser(new User("CristianChile", "345", "Cristian", "Gonzales", "103"));
+			User user1 = userService.createOrUpdate(new User("IzumiJapan", "12345", "Izumi", "Suzuki", "101"));
+			User user2 = userService.createOrUpdate(new User("HaydeePeru", "123", "Haydee", "Arbieto de Alvarado", "102"));
+			User user3 = userService.createOrUpdate(new User("CristianChile", "345", "Cristian", "Gonzales", "103"));
 			
 			
 			Team createdTeam = teamService.createOrUpdate(new Team("Team Forest"));
-			User user4 = userService.createOrUpdateUser(new User("RodionEstland", "1234", "Rodion", "Estland", "104"));
+			User user4 = userService.createOrUpdate(new User("RodionEstland", "1234", "Rodion", "Estland", "104"));
 			WorkItem createdWorkItem = workItemService.createOrUpdate(new WorkItem("Fånga en fågel").setStatus(WorkItemStatus.STARTED));
 			
 			System.out.println("createdWorkItem: " + createdWorkItem);
 			System.out.println();
 			
-			User updatedUser = userService.createOrUpdateUser(user2.setUsername("Son Goku Gahahaha"));
+			User updatedUser = userService.createOrUpdate(user2.setUsername("Son Goku Gahahaha"));
 			workItemService.assignWorkItemToUser(updatedUser, createdWorkItem);
 			
 			userService.inactivateUser(updatedUser);
