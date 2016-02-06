@@ -68,6 +68,9 @@ public final class Main2
 
 			User user1AddedToTeamA = teamService.addUserToTeam(teamA, user1);
 			System.out.println("User1 joined to teamA: " + user1AddedToTeamA);
+			
+			User userAddedToTeam = teamService.addUserToTeam(new Team("TeamB"), user4);
+			System.out.println("userAddedToTeam: " + userAddedToTeam);
 		}
 	}
 }

@@ -35,7 +35,7 @@ public class User extends AbstractEntity
 
 	protected User(){}
 	
-	public User(String username, String password, String firstName, String lastName, String userNumber)
+	public User(final String username, final String password, final String firstName, final String lastName, final String userNumber)
 	{
 		this.username = username;
 		this.password = password;
