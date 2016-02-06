@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import se.grouprich.projectmanagement.model.Team;
 import se.grouprich.projectmanagement.model.User;
 
-public interface UserRepository extends CrudRepository<User, Long>, UserRepositoryCustom
+public interface UserRepository extends CrudRepository<User, Long>
 {
 	User findByUserNumber(String userNumber);
 

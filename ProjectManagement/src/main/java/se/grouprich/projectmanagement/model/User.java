@@ -12,7 +12,7 @@ import se.grouprich.projectmanagement.status.UserStatus;
 @Entity
 public class User extends AbstractEntity
 {
-	@Column(unique = true)
+	@Column(nullable = false, unique = true)
 	private String username;
 
 	@Column(nullable = false)
@@ -24,7 +24,7 @@ public class User extends AbstractEntity
 	@Column(nullable = false)
 	private String lastName;
 
-	@Column(unique = true)
+	@Column(nullable = false, unique = true)
 	private String userNumber;
 
 	@Enumerated(EnumType.STRING)
@@ -43,11 +43,6 @@ public class User extends AbstractEntity
 		this.lastName = lastName;
 		this.userNumber = userNumber;
 		status = UserStatus.ACTIVE;
-	}
-
-	public Long getId()
-	{
-		return id;
 	}
 
 	public String getUsername()
@@ -83,6 +78,17 @@ public class User extends AbstractEntity
 	public Team getTeam()
 	{
 		return team;
+	}
+	
+	public User setUsername(String username)
+	{
+		this.username = username;
+		return this;
+	}
+	
+	public void setPassword(String password)
+	{
+		this.password = password;
 	}
 
 	public User setStatus(UserStatus status)

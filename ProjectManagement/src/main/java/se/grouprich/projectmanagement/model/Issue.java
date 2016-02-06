@@ -62,8 +62,8 @@ public class Issue extends AbstractEntity
 
 		if (other instanceof Issue)
 		{
-			Issue otherUser = (Issue) other;
-			return description.equals(otherUser.description);
+			Issue otherIssue = (Issue) other;
+			return description.equals(otherIssue.description);
 		}
 		return false;
 	}

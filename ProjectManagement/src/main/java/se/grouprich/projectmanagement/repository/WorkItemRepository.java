@@ -21,7 +21,7 @@ public interface WorkItemRepository extends CrudRepository<WorkItem, Long>
 	List<WorkItem> findByDescriptionContaining(String keyword);
 	
 	@Query("SELECT w FROM #{#entityName} w WHERE w.user.team = ?1")
-	List<WorkItem> findForTeam(Team team);
+	List<WorkItem> findByTeam(Team team);
 	
 	List<WorkItem> findByUser(User user);
 }
