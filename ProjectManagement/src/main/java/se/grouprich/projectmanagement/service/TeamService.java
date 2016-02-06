@@ -19,29 +19,29 @@ public class TeamService extends AbstractService<Team, TeamRepository>
 	private UserRepository userRepository;
 
 	@Autowired
-	TeamService(TeamRepository teamRepository, UserRepository userRepository)
+	TeamService(final TeamRepository superRepository, final UserRepository userRepository)
 	{
-		super(teamRepository);
+		super(superRepository);
 		this.userRepository = userRepository;
 	}
 	
-	public Team inactivateTeam(Team team)
+	public Team inactivateTeam(final Team team)
 	{
 		team.setStatus(TeamStatus.INACTIVE);
 		return createOrUpdate(team);
 	}
 	
 	@Transactional
-	public User addUserToTeam(Team team, User user) throws TeamException
+	public User addUserToTeam(final Team team, final User user) throws TeamException
 	{
-		Team savedTeam = createOrUpdate(team);
+		final Team savedTeam = createOrUpdate(team);
 
 		List<User> usersFoundByTeam = userRepository.findByTeam(savedTeam);
 		if (usersFoundByTeam.size() >= 10)
 		{
 			throw new TeamException("Maximum number of users in a Team is 10");
 		}
-		User userWithTeam = user.setTeam(team);
+		User userWithTeam = user.setTeam(savedTeam);
 
 		return userRepository.save(userWithTeam);
 	}	

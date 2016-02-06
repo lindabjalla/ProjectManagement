@@ -42,7 +42,7 @@ public class IssueService extends AbstractService<Issue, IssueRepository>
 	{
 		if (issue.getId() == null)
 		{
-			throw new RepositoryException("Issue does not exists");
+			throw new RepositoryException("Issue does not exist");
 		}
 		
 		return createOrUpdate(issue);

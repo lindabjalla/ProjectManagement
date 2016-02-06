@@ -18,7 +18,7 @@ public class Team extends AbstractEntity
 
 	protected Team(){}
 
-	public Team(String name)
+	public Team(final String name)
 	{
 		this.name = name;
 		status = TeamStatus.ACTIVE;
@@ -34,12 +34,12 @@ public class Team extends AbstractEntity
 		return status;
 	}
 	
-	public void setName(String name)
+	public void setName(final String name)
 	{
 		this.name = name;
 	}
 
-	public void setStatus(TeamStatus status)
+	public void setStatus(final TeamStatus status)
 	{
 		this.status = status;
 	}

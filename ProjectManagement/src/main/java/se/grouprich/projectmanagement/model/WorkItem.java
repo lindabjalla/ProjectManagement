@@ -42,7 +42,7 @@ public class WorkItem extends AbstractEntity
 	{
 		return status;
 	}
-
+	
 	public WorkItem setStatus(WorkItemStatus status)
 	{
 		this.status = status;

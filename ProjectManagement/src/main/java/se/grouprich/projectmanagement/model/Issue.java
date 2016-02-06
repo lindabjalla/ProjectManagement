@@ -25,6 +25,11 @@ public class Issue extends AbstractEntity
 		this.description = description;
 	}
 
+	public Long getId()
+	{
+		return id;
+	}
+
 	public String getDescription()
 	{
 		return description;
