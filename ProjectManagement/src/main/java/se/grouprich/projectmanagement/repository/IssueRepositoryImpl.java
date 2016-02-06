@@ -3,7 +3,6 @@ package se.grouprich.projectmanagement.repository;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 
 import se.grouprich.projectmanagement.model.Issue;
 
