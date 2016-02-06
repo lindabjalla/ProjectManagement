@@ -33,7 +33,7 @@ public class UserService extends AbstractService<User, UserRepository>
 			throw new IllegalArgumentException("Username must be longer than or equal to 10 characters");
 		}
 		
-		return createOrUpdate(user);
+		return super.createOrUpdate(user);
 	}
 	
 	@Transactional
