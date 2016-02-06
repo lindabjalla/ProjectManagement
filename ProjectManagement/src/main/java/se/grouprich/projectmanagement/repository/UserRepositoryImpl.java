@@ -2,6 +2,8 @@ package se.grouprich.projectmanagement.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+
 import se.grouprich.projectmanagement.model.User;
 
 public class UserRepositoryImpl extends AbstractRepository<User> implements NumberSetter<User, UserRepository>
@@ -10,7 +12,7 @@ public class UserRepositoryImpl extends AbstractRepository<User> implements Numb
 	{
 		if (user.getEntityNumber() == null)
 		{
-			List<User> usersOrderedByDESCNumber = userRepository.findAllOrderedByDESCEntityNumber();
+			List<User> usersOrderedByDESCNumber = userRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
 			return super.setEntityNumber(usersOrderedByDESCNumber, user);
 		}
 		return user;
