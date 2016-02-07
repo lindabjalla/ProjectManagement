@@ -32,7 +32,7 @@ public class User extends AbstractEntity
 	private Team team;
 
 	protected User(){}
-	
+
 	public User(final String username, final String password, final String firstName, final String lastName)
 	{
 		this.username = username;
@@ -71,16 +71,17 @@ public class User extends AbstractEntity
 	{
 		return team;
 	}
-	
+
 	public User setUsername(String username)
 	{
 		this.username = username;
 		return this;
 	}
-	
-	public void setPassword(String password)
+
+	public User setPassword(String password)
 	{
 		this.password = password;
+		return this;
 	}
 
 	public User setStatus(UserStatus status)
@@ -106,9 +107,8 @@ public class User extends AbstractEntity
 		if (other instanceof User)
 		{
 			User otherUser = (User) other;
-			return username.equals(otherUser.username) && password.equals(otherUser.password) &&
-				   firstName.equals(otherUser.firstName) && lastName.equals(otherUser.lastName) &&
-				   entityNumber.equals(otherUser.entityNumber) && status.equals(otherUser.status);
+			return entityNumber.equals(otherUser.entityNumber) && username.equals(otherUser.username) && password.equals(otherUser.password)
+					&& firstName.equals(otherUser.firstName) && lastName.equals(otherUser.lastName) && status.equals(otherUser.status);
 		}
 		return false;
 	}
@@ -130,7 +130,7 @@ public class User extends AbstractEntity
 	@Override
 	public String toString()
 	{
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", userNumber="
-				+ entityNumber + ", status=" + status + ", team=" + team + "]";
+		return "User [id=" + id + ", entityNumber=" + entityNumber + ", username=" + username + ", password=" + password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", status=" + status + ", team=" + team + "]";
 	}
 }
