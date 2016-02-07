@@ -51,7 +51,7 @@ public class UserService extends AbstractService<User, UserRepository>
 		return createOrUpdate(user);
 	}
 
-	public User findByNumber(Long number)
+	public User findByEntityNumber(Long number)
 	{
 		return superRepository.findByEntityNumber(number);
 	}

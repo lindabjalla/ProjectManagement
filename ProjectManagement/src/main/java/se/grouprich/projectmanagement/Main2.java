@@ -59,7 +59,7 @@ public final class Main2
 			
 			teamService.addUserToTeam(createdTeam, new User("100KopparKaffe", "44444", "Kaffe", "Sugen"));
 
-			User userFetchedByUserNumber4 = userService.findByNumber(4L);
+			User userFetchedByUserNumber4 = userService.findByEntityNumber(4L);
 			System.out.println();
 			
 			User userSearchByExactMatching = userService.searchUserByFirstNameAndLastNameAndUsername("Haydee", "Arbieto de Alvarado", "Son Goku Gahahaha");
@@ -89,6 +89,20 @@ public final class Main2
 			System.out.println("----workItemsHavingIssue----");
 			workItemsHavingIssue.forEach(System.out::println);
 			System.out.println();
+			
+			User userMaikoKonnichiwa = userService.createOrUpdate(new User("MaikoKonnichiwa", "12255", "Maiko", "Hayashi"));
+			System.out.println("MaikoKonnichiwa: " + userMaikoKonnichiwa);
+			
+			userMaikoKonnichiwa.setTeam(createdTeam);
+			userService.createOrUpdate(userMaikoKonnichiwa);
+			
+			userService.inactivateUser(userMaikoKonnichiwa);
+			
+			User foundUserByEntityNumber = userService.findByEntityNumber(5L);
+			System.out.println("foundUserByEntityNumber: " + foundUserByEntityNumber);
+			
+			List<User> usersFetchedByTeam = userService.fetchUsersByTeam(teamA);
+			System.out.println("usersFetchedByTeam; " + usersFetchedByTeam);
 		}
 	}
 }
