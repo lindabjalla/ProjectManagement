@@ -43,24 +43,24 @@ public class WorkItem extends AbstractEntity
 		return status;
 	}
 	
-	public void setTitle(String title)
+	public void setTitle(final String title)
 	{
 		this.title = title;
 	}
 
-	public WorkItem setStatus(WorkItemStatus status)
+	public WorkItem setStatus(final WorkItemStatus status)
 	{
 		this.status = status;
 		return this;
 	}
 
-	public WorkItem setDescription(String description)
+	public WorkItem setDescription(final String description)
 	{
 		this.description = description;
 		return this;
 	}
 
-	public WorkItem setUser(User user)
+	public WorkItem setUser(final User user)
 	{
 		this.user = user;
 		return this;
@@ -77,7 +77,7 @@ public class WorkItem extends AbstractEntity
 		if (other instanceof WorkItem)
 		{
 			WorkItem otherWorkItem = (WorkItem) other;
-			return entityNumber.equals(otherWorkItem.entityNumber) && title.equals(otherWorkItem.title)
+			return controlNumber.equals(otherWorkItem.controlNumber) && title.equals(otherWorkItem.title)
 					&& status.equals(otherWorkItem.status);
 		}
 		return false;
@@ -87,7 +87,7 @@ public class WorkItem extends AbstractEntity
 	public int hashCode()
 	{
 		int result = 1;
-		result += entityNumber.hashCode() * 37;
+		result += controlNumber.hashCode() * 37;
 		result += title.hashCode() * 37;
 		result += status.hashCode() * 37;
 
@@ -97,6 +97,6 @@ public class WorkItem extends AbstractEntity
 	@Override
 	public String toString()
 	{
-		return "WorkItem [id=" + id + ", entityNumber=" + entityNumber + ", title=" + title + ", user=" + user + ", description=" + description + ", status=" + status + "]";
+		return "WorkItem [id=" + id + ", entityNumber=" + controlNumber + ", title=" + title + ", user=" + user + ", description=" + description + ", status=" + status + "]";
 	}
 }

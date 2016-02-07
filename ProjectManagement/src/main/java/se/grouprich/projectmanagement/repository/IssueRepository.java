@@ -19,6 +19,6 @@ public interface IssueRepository extends CrudRepository<Issue, Long>, NumberSett
 	@Transactional
 	List<Issue> removeByWorkItem(WorkItem workItem);
 	
-	@Query("SELECT i FROM #{#entityName} i order by i.entityNumber DESC")
-	Slice<Issue> findAllOrderedByDESCEntityNumber(Pageable pageable);
+	@Query("SELECT i FROM #{#entityName} i order by i.controlNumber DESC")
+	Slice<Issue> findAllOrderedByControlNumberDESC(Pageable pageable);
 }

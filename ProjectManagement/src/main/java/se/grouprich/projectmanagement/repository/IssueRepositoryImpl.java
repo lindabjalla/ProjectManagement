@@ -8,12 +8,12 @@ import se.grouprich.projectmanagement.model.Issue;
 
 public class IssueRepositoryImpl extends AbstractRepository<Issue> implements NumberSetter<Issue, IssueRepository>
 {
-	public Issue setEntityNumber(IssueRepository issueRepository, Issue issue)
+	public Issue setControlNumber(final IssueRepository issueRepository, final Issue issue)
 	{
-		if (issue.getEntityNumber() == null)
+		if (issue.getControlNumber() == null)
 		{
-			List<Issue> foundIssue = issueRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
-			return super.setEntityNumber(foundIssue, issue);
+			final List<Issue> foundIssue = issueRepository.findAllOrderedByControlNumberDESC(new PageRequest(0, 1)).getContent();
+			return super.setControlNumber(foundIssue, issue);
 		}
 		return issue;
 	}

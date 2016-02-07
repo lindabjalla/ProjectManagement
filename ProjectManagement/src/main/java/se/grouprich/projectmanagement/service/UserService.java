@@ -32,7 +32,7 @@ public class UserService extends AbstractService<User, UserRepository>
 		{
 			throw new IllegalArgumentException("Username must be longer than or equal to 10 characters");
 		}
-		superRepository.setEntityNumber(superRepository, user);
+		superRepository.setControlNumber(superRepository, user);
 		return super.createOrUpdate(user);
 	}
 
@@ -51,9 +51,9 @@ public class UserService extends AbstractService<User, UserRepository>
 		return createOrUpdate(user);
 	}
 
-	public User findByEntityNumber(Long number)
+	public User findByControlNumber(Long controlNumber)
 	{
-		return superRepository.findByEntityNumber(number);
+		return superRepository.findByControlNumber(controlNumber);
 	}
 
 	public User searchUserByFirstNameAndLastNameAndUsername(String firstName, String lastName, String username)

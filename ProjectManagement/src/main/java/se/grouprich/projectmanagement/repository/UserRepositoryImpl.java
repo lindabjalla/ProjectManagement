@@ -8,12 +8,12 @@ import se.grouprich.projectmanagement.model.User;
 
 public class UserRepositoryImpl extends AbstractRepository<User> implements NumberSetter<User, UserRepository>
 {
-	public User setEntityNumber(UserRepository userRepository, User user)
+	public User setControlNumber(final UserRepository userRepository, final User user)
 	{
-		if (user.getEntityNumber() == null)
+		if (user.getControlNumber() == null)
 		{
-			List<User> foundTeam = userRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
-			return super.setEntityNumber(foundTeam, user);
+			final List<User> foundTeam = userRepository.findAllOrderedByControlNumberDESC(new PageRequest(0, 1)).getContent();
+			return super.setControlNumber(foundTeam, user);
 		}
 		return user;
 	}

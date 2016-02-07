@@ -59,7 +59,7 @@ public final class Main2
 			
 			teamService.addUserToTeam(createdTeam, new User("100KopparKaffe", "44444", "Kaffe", "Sugen"));
 
-			User userFetchedByUserNumber4 = userService.findByEntityNumber(4L);
+			User userFetchedByUserNumber4 = userService.findByControlNumber(4L);
 			System.out.println();
 			
 			User userSearchByExactMatching = userService.searchUserByFirstNameAndLastNameAndUsername("Haydee", "Arbieto de Alvarado", "Son Goku Gahahaha");
@@ -98,11 +98,48 @@ public final class Main2
 			
 			userService.inactivateUser(userMaikoKonnichiwa);
 			
-			User foundUserByEntityNumber = userService.findByEntityNumber(5L);
+			
+			User foundUserByEntityNumber = userService.findByControlNumber(5L);
 			System.out.println("foundUserByEntityNumber: " + foundUserByEntityNumber);
 			
 			List<User> usersFetchedByTeam = userService.fetchUsersByTeam(teamA);
 			System.out.println("usersFetchedByTeam; " + usersFetchedByTeam);
+			
+			WorkItem workItem2 = workItemService.createOrUpdate(new WorkItem("Handla mat").setDescription("handla mjölk, ris, vitlök, apelsiner"));
+			workItemService.changeWorkItemStatus(workItem2, WorkItemStatus.STARTED);
+			
+			WorkItem removedWorkItem = workItemService.removeWorkItem(createdWorkItem);
+			System.out.println("removedWorkItem: " + removedWorkItem);
+			System.out.println();
+			
+			workItemService.assignWorkItemToUser(user4, workItem2);
+			
+			List<WorkItem> workItemsFetchedByStatus = workItemService.fetchWorkItemsByStatus(WorkItemStatus.STARTED);
+			System.out.println("---workItems fetched by status---");
+			workItemsFetchedByStatus.forEach(System.out::println);
+			System.out.println();
+			
+			
+			List<WorkItem> workItemsForTeam = workItemService.fetchWorkItemsForTeam(teamService.findById(10L));
+			System.out.println("---workItems for teamB---");
+			workItemsForTeam.forEach(System.out::println);
+			System.out.println();
+			
+			List<WorkItem> workItemsForUser = workItemService.fetchWorkItemsForUser(user4);
+			System.out.println("---workItems for user4---");
+			workItemsForUser.forEach(System.out::println);
+			System.out.println();
+			
+			workItemService.createOrUpdate(new WorkItem("baka en tårta").setDescription("baka apelsintårta"));
+			
+			List<WorkItem> workItemsApelsin = workItemService.searchWorkItemsByDescriptionContaining("apelsin");
+			System.out.println("---workItems with keywork 'apelsin'");
+			workItemsApelsin.forEach(System.out::println);
+			
+			for (int i = 0; i < 5; i++)
+			{
+				workItemService.assignWorkItemToUser(user3, new WorkItem("baka bröd" + i));
+			}
 		}
 	}
 }

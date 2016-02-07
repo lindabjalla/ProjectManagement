@@ -107,7 +107,7 @@ public class User extends AbstractEntity
 		if (other instanceof User)
 		{
 			User otherUser = (User) other;
-			return entityNumber.equals(otherUser.entityNumber) && username.equals(otherUser.username) && password.equals(otherUser.password)
+			return controlNumber.equals(otherUser.controlNumber) && username.equals(otherUser.username) && password.equals(otherUser.password)
 					&& firstName.equals(otherUser.firstName) && lastName.equals(otherUser.lastName) && status.equals(otherUser.status);
 		}
 		return false;
@@ -117,7 +117,7 @@ public class User extends AbstractEntity
 	public int hashCode()
 	{
 		int result = 1;
-		result += entityNumber.hashCode() * 37;
+		result += controlNumber.hashCode() * 37;
 		result += username.hashCode() * 37;
 		result += password.hashCode() * 37;
 		result += firstName.hashCode() * 37;
@@ -130,7 +130,7 @@ public class User extends AbstractEntity
 	@Override
 	public String toString()
 	{
-		return "User [id=" + id + ", entityNumber=" + entityNumber + ", username=" + username + ", password=" + password + ", firstName="
+		return "User [id=" + id + ", entityNumber=" + controlNumber + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", status=" + status + ", team=" + team + "]";
 	}
 }

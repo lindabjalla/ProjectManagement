@@ -56,7 +56,7 @@ public class Team extends AbstractEntity
 		if (other instanceof Team)
 		{
 			Team otherTeam = (Team) other;
-			return entityNumber.equals(otherTeam.entityNumber) && name.equals(otherTeam.name) && status.equals(otherTeam.status);
+			return controlNumber.equals(otherTeam.controlNumber) && name.equals(otherTeam.name) && status.equals(otherTeam.status);
 		}
 		return false;
 	}
@@ -65,7 +65,7 @@ public class Team extends AbstractEntity
 	public int hashCode()
 	{
 		int result = 1;
-		result += entityNumber.hashCode() * 37;
+		result += controlNumber.hashCode() * 37;
 		result += name.hashCode() * 37;
 		result += status.hashCode() * 37;
 
@@ -75,6 +75,6 @@ public class Team extends AbstractEntity
 	@Override
 	public String toString()
 	{
-		return "Team [id=" + id + ", entityNumber=" + entityNumber + ", name=" + name + ", status=" + status + "]";
+		return "Team [id=" + id + ", entityNumber=" + controlNumber + ", name=" + name + ", status=" + status + "]";
 	}
 }

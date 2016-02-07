@@ -13,20 +13,20 @@ public abstract class AbstractEntity
 	Long id;
 	
 	@Column(nullable = false, unique = true)
-	Long entityNumber;
+	Long controlNumber;
 	
 	public Long getId()
 	{
 		return id;
 	}
 	
-	public Long getEntityNumber()
+	public Long getControlNumber()
 	{
-		return entityNumber;
+		return controlNumber;
 	}
 	
-	public void setEntityNumber(Long entityNumber)
+	public void setControlNumber(final Long controlNumber)
 	{
-		this.entityNumber = entityNumber;
+		this.controlNumber = controlNumber;
 	}
 }

@@ -8,12 +8,12 @@ import se.grouprich.projectmanagement.model.WorkItem;
 
 public class WorkItemRepositoryImpl extends AbstractRepository<WorkItem> implements NumberSetter<WorkItem, WorkItemRepository>
 {
-	public WorkItem setEntityNumber(WorkItemRepository workItemRepository, WorkItem workItem)
+	public WorkItem setControlNumber(final WorkItemRepository workItemRepository, final WorkItem workItem)
 	{
-		if (workItem.getEntityNumber() == null)
+		if (workItem.getControlNumber() == null)
 		{
-			List<WorkItem> foundWorkItem = workItemRepository.findAllOrderedByDESCEntityNumber(new PageRequest(0, 1)).getContent();
-			return super.setEntityNumber(foundWorkItem, workItem);
+			final List<WorkItem> foundWorkItem = workItemRepository.findAllOrderedByControlNumberDESC(new PageRequest(0, 1)).getContent();
+			return super.setControlNumber(foundWorkItem, workItem);
 		}
 		return workItem;
 	}

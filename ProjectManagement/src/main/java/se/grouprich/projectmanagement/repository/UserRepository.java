@@ -12,7 +12,7 @@ import se.grouprich.projectmanagement.model.User;
 
 public interface UserRepository extends CrudRepository<User, Long>, NumberSetter<User, UserRepository>
 {
-	User findByEntityNumber(Long entityNumber);
+	User findByControlNumber(Long controlNumber);
 
 	User findByFirstNameAndLastNameAndUsername(String firstName, String lastName, String username);
 
@@ -20,6 +20,6 @@ public interface UserRepository extends CrudRepository<User, Long>, NumberSetter
 	
 	List<User> findByTeam(Team team);
 	
-	@Query("SELECT u FROM #{#entityName} u order by u.entityNumber DESC")
-	Slice<User> findAllOrderedByDESCEntityNumber(Pageable pageable);
+	@Query("SELECT u FROM #{#entityName} u order by u.controlNumber DESC")
+	Slice<User> findAllOrderedByControlNumberDESC(Pageable pageable);
 }

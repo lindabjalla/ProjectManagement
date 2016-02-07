@@ -60,7 +60,7 @@ public class Issue extends AbstractEntity
 		if (other instanceof Issue)
 		{
 			Issue otherIssue = (Issue) other;
-			return entityNumber.equals(otherIssue.entityNumber) && description.equals(otherIssue.description);
+			return controlNumber.equals(otherIssue.controlNumber) && description.equals(otherIssue.description);
 		}
 		return false;
 	}
@@ -69,7 +69,7 @@ public class Issue extends AbstractEntity
 	public int hashCode()
 	{
 		int result = 1;
-		result += entityNumber.hashCode() * 37;
+		result += controlNumber.hashCode() * 37;
 		result += description.hashCode() * 37;
 
 		return result;
@@ -78,6 +78,6 @@ public class Issue extends AbstractEntity
 	@Override
 	public String toString()
 	{
-		return "Issue [id=" + id + ", entityNumber=" + entityNumber + ", description=" + description + ", workItem=" + workItem + "]";
+		return "Issue [id=" + id + ", entityNumber=" + controlNumber + ", description=" + description + ", workItem=" + workItem + "]";
 	}
 }

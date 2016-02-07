@@ -27,6 +27,6 @@ public interface WorkItemRepository extends CrudRepository<WorkItem, Long>, Numb
 	
 	List<WorkItem> findByUser(User user);
 	
-	@Query("SELECT w FROM #{#entityName} w order by w.entityNumber DESC")
-	Slice<WorkItem> findAllOrderedByDESCEntityNumber(Pageable pageable);
+	@Query("SELECT w FROM #{#entityName} w order by w.controlNumber DESC")
+	Slice<WorkItem> findAllOrderedByControlNumberDESC(Pageable pageable);
 }

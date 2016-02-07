@@ -25,9 +25,9 @@ public class TeamService extends AbstractService<Team, TeamRepository>
 		this.userRepository = userRepository;
 	}
 
-	public Team createOrUpdate(Team team)
+	public Team createOrUpdate(final Team team)
 	{
-		superRepository.setEntityNumber(superRepository, team);
+		superRepository.setControlNumber(superRepository, team);
 		return super.createOrUpdate(team);
 	}
 
@@ -42,13 +42,13 @@ public class TeamService extends AbstractService<Team, TeamRepository>
 	{
 		final Team savedTeam = createOrUpdate(team);
 
-		List<User> usersFoundByTeam = userRepository.findByTeam(savedTeam);
+		final List<User> usersFoundByTeam = userRepository.findByTeam(savedTeam);
 		if (usersFoundByTeam.size() >= 10)
 		{
 			throw new TeamException("Maximum number of users in a Team is 10");
 		}
 
-		userRepository.setEntityNumber(userRepository, user);
+		userRepository.setControlNumber(userRepository, user);
 		User userWithTeam = user.setTeam(savedTeam);
 
 		return userRepository.save(userWithTeam);

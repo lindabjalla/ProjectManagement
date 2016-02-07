@@ -23,67 +23,67 @@ public class WorkItemService extends AbstractService<WorkItem, WorkItemRepositor
 	private UserRepository userRepository;
 
 	@Autowired
-	WorkItemService(WorkItemRepository superRepository, IssueRepository issueRepository, UserRepository userRepository)
+	WorkItemService(final WorkItemRepository superRepository, final IssueRepository issueRepository, final UserRepository userRepository)
 	{
 		super(superRepository);
 		this.issueRepository = issueRepository;
 		this.userRepository = userRepository;
 	}
 
-	public WorkItem createOrUpdate(WorkItem workItem)
+	public WorkItem createOrUpdate(final WorkItem workItem)
 	{
-		superRepository.setEntityNumber(superRepository, workItem);
+		superRepository.setControlNumber(superRepository, workItem);
 		return super.createOrUpdate(workItem);
 	}
 
-	public WorkItem changeWorkItemStatus(WorkItem workItem, WorkItemStatus status)
+	public WorkItem changeWorkItemStatus(final WorkItem workItem, final WorkItemStatus status)
 	{
 		workItem.setStatus(status);
 		return createOrUpdate(workItem);
 	}
 
 	@Transactional
-	public WorkItem removeWorkItem(WorkItem workItem)
+	public WorkItem removeWorkItem(final WorkItem workItem)
 	{
 		issueRepository.removeByWorkItem(workItem);
 		return superRepository.removeById(workItem.getId()).get(0);
 	}
 
 	@Transactional
-	public WorkItem assignWorkItemToUser(User user, WorkItem workItem) throws WorkItemException
+	public WorkItem assignWorkItemToUser(final User user, final WorkItem workItem) throws WorkItemException
 	{
-		User savedUser = userRepository.save(user);
+		final User savedUser = userRepository.save(user);
 		if (!UserStatus.ACTIVE.equals(savedUser.getStatus()))
 		{
 			throw new WorkItemException("A WorkItem can only be assigned to a User with UserStatus.ACTIVE");
 		}
 
-		List<WorkItem> workItemsFoundByUser = superRepository.findByUser(savedUser);
+		final List<WorkItem> workItemsFoundByUser = superRepository.findByUser(savedUser);
 		if (workItemsFoundByUser.size() >= 5)
 		{
 			throw new WorkItemException("Maximum number of work items a User can have is 5");
 		}
 
-		WorkItem assignedWorkItem = workItem.setUser(savedUser);
+		final WorkItem assignedWorkItem = workItem.setUser(savedUser);
 		return createOrUpdate(assignedWorkItem);
 	}
 
-	public List<WorkItem> fetchWorkItemsByStatus(WorkItemStatus status)
+	public List<WorkItem> fetchWorkItemsByStatus(final WorkItemStatus status)
 	{
 		return superRepository.findByStatus(status);
 	}
 
-	public List<WorkItem> fetchWorkItemsForTeam(Team team)
+	public List<WorkItem> fetchWorkItemsForTeam(final Team team)
 	{
 		return superRepository.findByTeam(team);
 	}
 
-	public List<WorkItem> fetchWorkItemsForUser(User user)
+	public List<WorkItem> fetchWorkItemsForUser(final User user)
 	{
 		return superRepository.findByUser(user);
 	}
 
-	public List<WorkItem> searchWorkItemsByDescriptionContaining(String keyword)
+	public List<WorkItem> searchWorkItemsByDescriptionContaining(final String keyword)
 	{
 		return superRepository.findByDescriptionContaining(keyword);
 	}
