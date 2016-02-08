@@ -78,6 +78,6 @@ public class Issue extends AbstractEntity
 	@Override
 	public String toString()
 	{
-		return "Issue [id=" + id + ", entityNumber=" + controlNumber + ", description=" + description + ", workItem=" + workItem + "]";
+		return "Issue [id=" + id + ", controlNumber=" + controlNumber + ", description=" + description + ", workItem=" + workItem + "]";
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import se.grouprich.projectmanagement.exception.RepositoryException;
 import se.grouprich.projectmanagement.exception.TeamException;
 import se.grouprich.projectmanagement.exception.WorkItemException;
 import se.grouprich.projectmanagement.model.Issue;
@@ -19,7 +20,7 @@ import se.grouprich.projectmanagement.status.WorkItemStatus;
 
 public final class Main2
 {
-	public static void main(String[] args) throws TeamException, WorkItemException
+	public static void main(String[] args) throws TeamException, WorkItemException, RepositoryException
 	{
 		try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext())
 		{
@@ -140,6 +141,9 @@ public final class Main2
 			{
 				workItemService.assignWorkItemToUser(user3, new WorkItem("baka bröd" + i));
 			}
+			
+			Issue issue12 = issueService.findById(12L);
+			issueService.updateIssue(issue12.setDescription("Mobilen är slutsåld"));
 		}
 	}
 }

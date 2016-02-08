@@ -75,6 +75,6 @@ public class Team extends AbstractEntity
 	@Override
 	public String toString()
 	{
-		return "Team [id=" + id + ", entityNumber=" + controlNumber + ", name=" + name + ", status=" + status + "]";
+		return "Team [id=" + id + ", controlNumber=" + controlNumber + ", name=" + name + ", status=" + status + "]";
 	}
 }

@@ -20,13 +20,13 @@ public class UserService extends AbstractService<User, UserRepository>
 	private WorkItemRepository workItemRepository;
 
 	@Autowired
-	UserService(UserRepository superRepository, WorkItemRepository workItemRepository)
+	UserService(final UserRepository superRepository, final WorkItemRepository workItemRepository)
 	{
 		super(superRepository);
 		this.workItemRepository = workItemRepository;
 	}
 
-	public User createOrUpdate(User user)
+	public User createOrUpdate(final User user)
 	{
 		if (!hasValidLength(user.getUsername()))
 		{
@@ -37,11 +37,11 @@ public class UserService extends AbstractService<User, UserRepository>
 	}
 
 	@Transactional
-	public User inactivateUser(User user)
+	public User inactivateUser(final User user)
 	{
 		user.setStatus(UserStatus.INACTIVE);
 
-		List<WorkItem> workItemsfoundByUser = workItemRepository.findByUser(user);
+		final List<WorkItem> workItemsfoundByUser = workItemRepository.findByUser(user);
 		for (WorkItem workItem : workItemsfoundByUser)
 		{
 			workItem.setStatus(WorkItemStatus.UNSTARTED);
@@ -51,27 +51,27 @@ public class UserService extends AbstractService<User, UserRepository>
 		return createOrUpdate(user);
 	}
 
-	public User findByControlNumber(Long controlNumber)
+	public User findByControlNumber(final Long controlNumber)
 	{
 		return superRepository.findByControlNumber(controlNumber);
 	}
 
-	public User searchUserByFirstNameAndLastNameAndUsername(String firstName, String lastName, String username)
+	public User searchUserByFirstNameAndLastNameAndUsername(final String firstName, final String lastName, final String username)
 	{
 		return superRepository.findByFirstNameAndLastNameAndUsername(firstName, lastName, username);
 	}
 
-	public List<User> searchUserByFirstNameOrLastNameOrUsername(String firstName, String lastName, String username)
+	public List<User> searchUserByFirstNameOrLastNameOrUsername(final String firstName, final String lastName, final String username)
 	{
 		return superRepository.findAllByFirstNameOrLastNameOrUsername(firstName, lastName, username);
 	}
 
-	public List<User> fetchUsersByTeam(Team team)
+	public List<User> fetchUsersByTeam(final Team team)
 	{
 		return superRepository.findByTeam(team);
 	}
 
-	private boolean hasValidLength(String username)
+	private boolean hasValidLength(final String username)
 	{
 		if (username != null && !username.trim().isEmpty())
 		{

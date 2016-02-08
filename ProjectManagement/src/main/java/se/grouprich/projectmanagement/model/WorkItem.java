@@ -27,7 +27,7 @@ public class WorkItem extends AbstractEntity
 
 	protected WorkItem(){}
 
-	public WorkItem(String title)
+	public WorkItem(final String title)
 	{
 		this.title = title;
 		status = WorkItemStatus.UNSTARTED;
@@ -97,6 +97,6 @@ public class WorkItem extends AbstractEntity
 	@Override
 	public String toString()
 	{
-		return "WorkItem [id=" + id + ", entityNumber=" + controlNumber + ", title=" + title + ", user=" + user + ", description=" + description + ", status=" + status + "]";
+		return "WorkItem [id=" + id + ", controlNumber=" + controlNumber + ", title=" + title + ", user=" + user + ", description=" + description + ", status=" + status + "]";
 	}
 }

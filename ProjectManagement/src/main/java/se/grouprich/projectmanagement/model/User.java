@@ -72,25 +72,25 @@ public class User extends AbstractEntity
 		return team;
 	}
 
-	public User setUsername(String username)
+	public User setUsername(final String username)
 	{
 		this.username = username;
 		return this;
 	}
 
-	public User setPassword(String password)
+	public User setPassword(final String password)
 	{
 		this.password = password;
 		return this;
 	}
 
-	public User setStatus(UserStatus status)
+	public User setStatus(final UserStatus status)
 	{
 		this.status = status;
 		return this;
 	}
 
-	public User setTeam(Team team)
+	public User setTeam(final Team team)
 	{
 		this.team = team;
 		return this;
@@ -130,7 +130,7 @@ public class User extends AbstractEntity
 	@Override
 	public String toString()
 	{
-		return "User [id=" + id + ", entityNumber=" + controlNumber + ", username=" + username + ", password=" + password + ", firstName="
+		return "User [id=" + id + ", controlNumber=" + controlNumber + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", status=" + status + ", team=" + team + "]";
 	}
 }
