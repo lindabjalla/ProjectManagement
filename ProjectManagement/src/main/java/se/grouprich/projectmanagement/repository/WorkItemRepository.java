@@ -2,8 +2,6 @@ package se.grouprich.projectmanagement.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +24,4 @@ public interface WorkItemRepository extends CrudRepository<WorkItem, Long>
 	List<WorkItem> findByTeam(Team team);
 	
 	List<WorkItem> findByUser(User user);
-	
-	@Query("SELECT w FROM #{#entityName} w order by w.controlNumber DESC")
-	Slice<WorkItem> findAllOrderedByControlNumberDESC(Pageable pageable);
 }
