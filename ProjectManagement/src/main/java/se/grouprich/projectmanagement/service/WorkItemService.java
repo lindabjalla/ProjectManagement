@@ -32,7 +32,6 @@ public class WorkItemService extends AbstractService<WorkItem, WorkItemRepositor
 
 	public WorkItem createOrUpdate(final WorkItem workItem)
 	{
-		superRepository.setControlNumber(superRepository, workItem);
 		return super.createOrUpdate(workItem);
 	}
 

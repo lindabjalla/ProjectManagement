@@ -29,6 +29,7 @@ public class WorkItem extends AbstractEntity
 
 	public WorkItem(final String title)
 	{
+		super();
 		this.title = title;
 		status = WorkItemStatus.UNSTARTED;
 	}

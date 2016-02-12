@@ -1,9 +1,14 @@
 package se.grouprich.projectmanagement.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 
 import se.grouprich.projectmanagement.status.TeamStatus;
 
@@ -13,6 +18,9 @@ public class Team extends AbstractEntity
 	@Column(nullable = false)
 	private String name;
 
+	@OneToMany(mappedBy = "team", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	private Set<User> users;
+
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TeamStatus status;
@@ -21,20 +29,27 @@ public class Team extends AbstractEntity
 
 	public Team(final String name)
 	{
+		super();
 		this.name = name;
 		status = TeamStatus.ACTIVE;
+		users = new HashSet<>();
 	}
 
 	public String getName()
 	{
 		return name;
 	}
-	
+
+	public Set<User> getUsers()
+	{
+		return users;
+	}
+
 	public TeamStatus getStatus()
 	{
 		return status;
 	}
-	
+
 	public void setName(final String name)
 	{
 		this.name = name;
@@ -43,6 +58,16 @@ public class Team extends AbstractEntity
 	public void setStatus(final TeamStatus status)
 	{
 		this.status = status;
+	}
+
+	public Team addUser(final User user)
+	{
+		if (!users.contains(user))
+		{
+			user.setTeam(this);
+			users.add(user);
+		}
+		return this;
 	}
 
 	@Override

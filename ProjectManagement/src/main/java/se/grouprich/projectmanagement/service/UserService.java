@@ -32,7 +32,6 @@ public class UserService extends AbstractService<User, UserRepository>
 		{
 			throw new IllegalArgumentException("Username must be longer than or equal to 10 characters");
 		}
-		superRepository.setControlNumber(superRepository, user);
 		return super.createOrUpdate(user);
 	}
 
@@ -66,7 +65,7 @@ public class UserService extends AbstractService<User, UserRepository>
 		return superRepository.findAllByFirstNameOrLastNameOrUsername(firstName, lastName, username);
 	}
 
-	public List<User> fetchUsersByTeam(final Team team)
+	public List<User> findByTeam(final Team team)
 	{
 		return superRepository.findByTeam(team);
 	}

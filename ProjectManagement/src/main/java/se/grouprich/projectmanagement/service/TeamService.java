@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import se.grouprich.projectmanagement.exception.RepositoryException;
 import se.grouprich.projectmanagement.exception.TeamException;
 import se.grouprich.projectmanagement.model.Team;
 import se.grouprich.projectmanagement.model.User;
@@ -27,7 +28,6 @@ public class TeamService extends AbstractService<Team, TeamRepository>
 
 	public Team createOrUpdate(final Team team)
 	{
-		superRepository.setControlNumber(superRepository, team);
 		return super.createOrUpdate(team);
 	}
 
@@ -38,19 +38,37 @@ public class TeamService extends AbstractService<Team, TeamRepository>
 	}
 
 	@Transactional
-	public User addUserToTeam(final Team team, final User user) throws TeamException
+	public Team addUserToTeam(final Team team, final User user) throws TeamException, RepositoryException
 	{
-		final Team savedTeam = createOrUpdate(team);
-
-		final List<User> usersFoundByTeam = userRepository.findByTeam(savedTeam);
-		if (usersFoundByTeam.size() >= 10)
+		// if (user.getId() == null)
+		// {
+		// throw new RepositoryException("User does not exist");
+		// }
+		if (user.getTeam() != null)
+		{
+			throw new TeamException("User is already in a Team. A User can only be in one Team at a time");
+		}
+		if (team.getUsers().size() >= 10)
 		{
 			throw new TeamException("Maximum number of users in a Team is 10");
 		}
 
-		userRepository.setControlNumber(userRepository, user);
-		User userWithTeam = user.setTeam(savedTeam);
+		final Team teamUserAdded = team.addUser(user);
 
-		return userRepository.save(userWithTeam);
+		return createOrUpdate(teamUserAdded);
+
+		// final Team savedTeam = createOrUpdate(team);
+		//
+		// final List<User> usersFoundByTeam =
+		// userRepository.findByTeam(savedTeam);
+		// if (usersFoundByTeam.size() >= 10)
+		// {
+		// throw new TeamException("Maximum number of users in a Team is 10");
+		// }
+		//
+		// userRepository.setControlNumber(userRepository, user);
+		// User userWithTeam = user.setTeam(savedTeam);
+		//
+		// return userRepository.save(userWithTeam);
 	}
 }

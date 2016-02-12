@@ -35,6 +35,7 @@ public class User extends AbstractEntity
 
 	public User(final String username, final String password, final String firstName, final String lastName)
 	{
+		super();
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
@@ -92,7 +93,11 @@ public class User extends AbstractEntity
 
 	public User setTeam(final Team team)
 	{
-		this.team = team;
+		if (this.team == null || !this.team.equals(team))
+		{
+			this.team = team;
+			team.addUser(this);
+		}
 		return this;
 	}
 

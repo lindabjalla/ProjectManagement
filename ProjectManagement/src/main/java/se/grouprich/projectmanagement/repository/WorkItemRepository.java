@@ -13,7 +13,7 @@ import se.grouprich.projectmanagement.model.User;
 import se.grouprich.projectmanagement.model.WorkItem;
 import se.grouprich.projectmanagement.status.WorkItemStatus;
 
-public interface WorkItemRepository extends CrudRepository<WorkItem, Long>, NumberSetter<WorkItem, WorkItemRepository>
+public interface WorkItemRepository extends CrudRepository<WorkItem, Long>
 {
 	@Transactional
 	List<WorkItem> removeById(Long id);

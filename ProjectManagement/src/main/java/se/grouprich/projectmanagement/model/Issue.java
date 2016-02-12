@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Issue extends AbstractEntity
 {
-	@Column(name = "issue", columnDefinition = "TEXT", nullable = false)
+	@Column(columnDefinition = "TEXT", nullable = false)
 	private String description;
 
 	@ManyToOne
@@ -19,6 +19,7 @@ public class Issue extends AbstractEntity
 
 	public Issue(final String description)
 	{
+		super();
 		this.description = description;
 	}
 

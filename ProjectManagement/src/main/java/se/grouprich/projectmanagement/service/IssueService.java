@@ -36,7 +36,6 @@ public class IssueService extends AbstractService<Issue, IssueRepository>
 			throw new WorkItemException("An Issue can only be added to a WorkItem with WorkItemStatus.DONE");
 		}
 		
-		superRepository.setControlNumber(superRepository, issue);
 		final WorkItem unstartedWorkItem = workItem.setStatus(WorkItemStatus.UNSTARTED);
 		final Issue issueAddedToWorkItem = issue.setWorkItem(unstartedWorkItem);
 
