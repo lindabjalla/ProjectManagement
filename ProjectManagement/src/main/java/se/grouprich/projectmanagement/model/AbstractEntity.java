@@ -7,8 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import org.hibernate.id.IdentityGenerator.GetGeneratedKeysDelegate;
-
 @MappedSuperclass
 public abstract class AbstractEntity
 {
