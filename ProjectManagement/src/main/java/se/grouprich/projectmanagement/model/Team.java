@@ -18,7 +18,7 @@ public class Team extends AbstractEntity
 	@Column(nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "team", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToMany(mappedBy = "team", cascade = CascadeType.MERGE)
 	private Set<User> users;
 
 	@Column(nullable = false)

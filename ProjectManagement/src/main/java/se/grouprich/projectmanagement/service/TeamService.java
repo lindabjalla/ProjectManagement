@@ -44,7 +44,6 @@ public class TeamService extends AbstractService<Team, TeamRepository>
 		}
 
 		final Team teamUserAdded = team.addUser(user);
-
 		return createOrUpdate(teamUserAdded);
 	}
 }
