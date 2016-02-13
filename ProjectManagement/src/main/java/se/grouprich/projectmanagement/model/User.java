@@ -28,7 +28,7 @@ public class User extends AbstractEntity
 	@Enumerated(EnumType.STRING)
 	private UserStatus status;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToOne(cascade = CascadeType.MERGE )
 	private Team team;
 
 	protected User(){}
